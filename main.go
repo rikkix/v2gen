@@ -9,7 +9,7 @@ Author Info :
 	Website	: https://iochen.com/
 
 Software Info :
-	Version			: V0.1.2
+	Version			: V0.1.3
 	Support format	: v2rayN/v2rayN/v2rayN/Mode/VmessQRCode.cs (Maybe, not tested all config type now)
 	License			: MIT LICENSE
 */
@@ -26,7 +26,6 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"time"
 )
 
 type Vmess struct {
@@ -46,43 +45,44 @@ func main() {
 	rawData, err := GetContent(*url) // get raw data from url
 	checkErr(err)
 
-	t := time.Now()
-
-	rawData, err = Base64Dec(rawData) // first time decode
+	vmessList, err := RawToVmessList(rawData)
 	checkErr(err)
-
-	// get json List
-	jsonList := strings.FieldsFunc(rawData, func(r rune) bool {
-		if r == '\n' || r == ' ' {
-			return true
-		}
-		return false
-	})
-
-	// remove "vmess://"
-	jsonList, err = RemovePro(jsonList)
-	checkErr(err)
-
-	// get vmess struct
-	vmessList := make([]Vmess, len(jsonList))
-	for i := 0; i < len(jsonList); i++ {
-		err := json.Unmarshal([]byte(jsonList[i]), &vmessList[i])
-		checkErr(err)
-	}
-
-	del := time.Since(t)
 
 	// choose node - CLI
 	n, err := NodeSelect(vmessList)
 	checkErr(err)
 	node := vmessList[n]
 
-	t = time.Now()
+	Settings := GenSettings(node, *userConfPath)
 
+	// Gen V2Ray json config
+	config, err := GenConf(Settings)
+	checkErr(err)
+
+	// write V2Ray json config
+	err = ioutil.WriteFile(*outPath, config, 0644)
+	checkErr(err)
+	fmt.Println("The config file has been written to", *outPath)
+
+	// If preview config - CLI
+	var ifPreview string
+	fmt.Print("=====================\nDo you want to preview the config?(y)es/(N)o: ")
+	_, err = fmt.Scanf("%s", &ifPreview)
+	checkErr(err)
+	fmt.Println("=====================")
+	if ifPreview == "y" || ifPreview == "Y" {
+		fmt.Println(string(config))
+		fmt.Println("=====================")
+	}
+
+	fmt.Println("All is done!", "Please restart your V2Ray Service.")
+}
+
+func GenSettings(node Vmess, path string) map[string]string {
 	Settings := make(map[string]string)
 
 	// set user settings
-	Settings, err = GetUserConf(*userConfPath)
+	Settings, err := GetUserConf(path)
 	checkErr(err)
 
 	// set node settings
@@ -96,42 +96,42 @@ func main() {
 	Settings["type"] = node.Type
 	Settings["host"] = node.Host
 	Settings["type"] = node.Type
+	return Settings
+}
 
-	// Gen V2Ray json config
-	config := GenConf(Settings)
-
-	// make it prettier
-	prettyConfig, err := prettyPrint([]byte(config))
-	checkErr(err)
-
-	// write V2Ray json config
-	err = ioutil.WriteFile(*outPath, prettyConfig, 0644)
-	checkErr(err)
-	fmt.Println("The config file has been written to",*outPath)
-
-	del = del + time.Since(t)
-
-	ifYes := map[string]bool{
-		"y":   true,
-		"Y":   true,
-		"yes": true,
-		"Yes": true,
-		"YES": true,
+func RawToVmessList(rawData string) ([]Vmess, error) {
+	rawData, err := Base64Dec(rawData) // first time decode
+	if err != nil {
+		return nil, err
 	}
 
-	// If preview config - CLI
-	var ifPreview string
-	fmt.Print("=====================\nDo you want to preview the config?(y)es/(N)o: ")
-	_, err = fmt.Scanf("%s", &ifPreview)
-	checkErr(err)
-	fmt.Println("=====================")
-	if ifYes[ifPreview] {
-		fmt.Println(string(prettyConfig))
-		fmt.Println("=====================")
-	}
+	// get base64 List
+	vmessURIList := strings.FieldsFunc(rawData, func(r rune) bool {
+		if r == '\n' || r == ' ' {
+			return true
+		}
+		return false
+	})
 
-	fmt.Println("All is done!", "Please restart your V2Ray Service.")
-	fmt.Println("The generation process took a total of", del)
+	// get vmess struct
+	vmessList := make([]Vmess, len(vmessURIList))
+	for i := 0; i < len(vmessURIList); i++ {
+		vmessList[i], err = VmessURItoVmess(vmessURIList[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return vmessList, err
+}
+
+func VmessURItoVmess(URI string) (Vmess, error) {
+	vmess := Vmess{}
+	j, err := RemoveProAndDec(URI)
+	if err != nil {
+		return vmess, err
+	}
+	err = json.Unmarshal([]byte(j), &vmess)
+	return vmess, err
 }
 
 func prettyPrint(b []byte) ([]byte, error) {
@@ -154,16 +154,9 @@ func Base64Dec(str string) (string, error) {
 	return string(de), err
 }
 
-// remove protocol
-func RemovePro(dataList []string) ([]string, error) {
-	var err error
-	for i := 0; i < len(dataList); i++ {
-		dataList[i], err = Base64Dec(dataList[i][8:])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return dataList, err
+// remove protocol && second decode
+func RemoveProAndDec(vmessURI string) (string, error) {
+	return Base64Dec(vmessURI[8:])
 }
 
 func NodeSelect(vmessList []Vmess) (int, error) {

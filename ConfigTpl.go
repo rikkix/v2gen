@@ -67,8 +67,8 @@ func GetUserConf(path string) (map[string]string, error) {
 	return Settings, err
 }
 
-func GenConf(Settings map[string]string) (conf string) {
-	conf = ConfigTpl
+func GenConf(Settings map[string]string) ([]byte, error) {
+	conf := ConfigTpl
 
 	// set china setting
 	if Settings["china"] == "true" {
@@ -101,7 +101,7 @@ func GenConf(Settings map[string]string) (conf string) {
 		conf = strings.ReplaceAll(conf, "{{"+k+"}}", v)
 	}
 
-	return
+	return prettyPrint([]byte(conf))
 }
 
 // from "aaa.ltd,bbb.ltd" to ""aaa.ltd","bbb.ltd""

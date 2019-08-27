@@ -25,7 +25,7 @@ Usage of ./v2gen:
 ```
 
 ## Version
-**V0.1.2**
+*V0.1.3*
 
 ## LINCENSE
 MIT LICENSE
