@@ -19,7 +19,7 @@ func GenSettings(node Vmess, path string) map[string]string {
 
 	// set node settings
 	Settings["address"] = node.Add
-	Settings["serverPort"] = node.Port
+	Settings["serverPort"] = fmt.Sprintf("%v", node.Port)
 	Settings["uuid"] = node.Id
 	Settings["aid"] = node.Aid
 	Settings["streamSecurity"] = node.Tls
@@ -68,6 +68,7 @@ func VmessURItoVmess(URI string) (Vmess, error) {
 		return vmess, err
 	}
 	err = json.Unmarshal([]byte(j), &vmess)
+
 	return vmess, err
 }
 

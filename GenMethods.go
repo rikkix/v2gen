@@ -59,6 +59,7 @@ func genFromURL() {
 
 func genFromVmessURIs() {
 	vmessList, err := VmessURIsToList(*vmessURIs)
+	checkErr(err)
 
 	var node Vmess
 	if len(vmessList) > 1 {

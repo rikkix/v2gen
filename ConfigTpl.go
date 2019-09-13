@@ -67,6 +67,8 @@ func GenConf(Settings map[string]string) ([]byte, error) {
 	// set stream
 	if Settings["tls"] == "tls" {
 		conf = strings.ReplaceAll(conf, "{{tls}}", TLSObject)
+	} else {
+		conf = strings.ReplaceAll(conf, "{{tls}}", "null")
 	}
 
 	switch Settings["network"] {

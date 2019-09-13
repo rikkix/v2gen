@@ -9,7 +9,7 @@ Author Info :
 	Website	: https://iochen.com/
 
 Software Info :
-	Version			: V0.2.6
+	Version			: V0.2.7
 	Support format	: v2rayN/v2rayN/v2rayN/Mode/VmessQRCode.cs (Maybe, not tested all config types now)
 	License			: MIT LICENSE
 */
@@ -19,11 +19,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 )
 
 type Vmess struct {
-	Ps, Add, Port, Id, Aid, Net, Type, Host, Path, Tls string
+	Ps, Add, Id, Aid, Net, Type, Host, Path, Tls string
+
+	// in some vmess URIs is int type, some are string type
+	Port interface{}
 }
 
 var (
@@ -59,7 +61,7 @@ func main() {
 
 func checkErr(err error) bool {
 	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 		return true
 	}
 	return false
