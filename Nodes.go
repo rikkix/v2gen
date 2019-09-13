@@ -31,29 +31,34 @@ func GenSettings(node Vmess, path string) map[string]string {
 	return Settings
 }
 
-func RawToVmessList(rawData string) ([]Vmess, error) {
-	rawData, err := Base64Dec(rawData) // first time decode
+func rawToVmessList(rawData string) ([]Vmess, error) {
+	vmessURIs, err := Base64Dec(rawData) // first time decode
 	if err != nil {
 		return nil, err
 	}
+	return VmessURIsToList(vmessURIs)
+}
 
+func VmessURIsToList(vmessURIs string) ([]Vmess, error) {
 	// get base64 List
-	vmessURIList := strings.FieldsFunc(rawData, func(r rune) bool {
-		if r == '\n' || r == ' ' {
+	vmessURIList := strings.FieldsFunc(vmessURIs, func(r rune) bool {
+		if r == '\n' || r == ' ' || r == ';' {
 			return true
 		}
 		return false
 	})
 
+	var err error
 	// get vmess struct
 	vmessList := make([]Vmess, len(vmessURIList))
-	for i := 0; i < len(vmessURIList); i++ {
-		vmessList[i], err = VmessURItoVmess(vmessURIList[i])
+	for k, v := range vmessURIList {
+		vmessList[k], err = VmessURItoVmess(v)
 		if err != nil {
 			return nil, err
 		}
 	}
-	return vmessList, err
+
+	return vmessList, nil
 }
 
 func VmessURItoVmess(URI string) (Vmess, error) {

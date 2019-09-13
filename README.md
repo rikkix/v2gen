@@ -22,18 +22,19 @@ Then run
 
 ## Param
 
-```Usage
-Usage of v2gen:
+```Param
 -c string
-V2Gen config path (default "/etc/v2ray/v2gen.ini")
+	V2Gen config path (default "/etc/v2ray/v2gen.ini")
 -init
-if initialize V2Gen config
+	if initialize V2Gen config
 -p string
-V2Ray json config output path (default "/etc/v2ray/config.json")
+	V2Ray json config output path (default "/etc/v2ray/config.json")
 -silent
-if you want to keep it silent (Select node by reading env NODE_NUM)
+	if you want to keep it silent (Select node by reading env NODE_NUM)
 -u string
-The URL to get nodes info from
+	The URL to get nodes info from
+-vmess string
+	vmess://foo or vmess://foo;vmess://bar
 ```
 
 ## V2Gen user config
@@ -110,7 +111,7 @@ writeBufferSize 1
 
 ## Version
 
-*V0.2.0*
+*V0.2.6*
 
 ## LINCENSE
 

@@ -23,17 +23,18 @@ go build -o ./v2gen
 ## 参数
 
 ```Usage
-v2gen 的用法:
 -c string
-    V2Gen 配置文件路径 (默认 "/etc/v2ray/v2gen.ini")
+	V2Gen config path (default "/etc/v2ray/v2gen.ini")
 -init
-    是否初始化 V2Gen 配置文件
+	if initialize V2Gen config
 -p string
-    V2Ray配置文件路径 (默认 "/etc/v2ray/config.json")
+	V2Ray json config output path (default "/etc/v2ray/config.json")
 -silent
-    如果你想安静运行 (通过读取环境变量 NODE_NUM 来选择节点序号)
+	if you want to keep it silent (Select node by reading env NODE_NUM)
 -u string
-    订阅链接
+	The URL to get nodes info from
+-vmess string
+	vmess://foo or vmess://foo;vmess://bar
 ```
 
 ## V2Gen 用户配置
@@ -110,7 +111,7 @@ writeBufferSize 1
 
 ## 版本
 
-*V0.2.0*
+*V0.2.6*
 
 ## 协议
 
