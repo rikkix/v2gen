@@ -37,6 +37,9 @@ func ParseV2GenConf(b []byte) map[string]string {
 	for _, s := range lines {
 		s = strings.TrimLeft(s, " ")
 		s = strings.TrimLeft(s, "\t")
+		if s == "" {
+			continue
+		}
 		if s[0] == '#' {
 			continue
 		}
