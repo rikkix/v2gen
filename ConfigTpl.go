@@ -31,8 +31,8 @@ func GetUserConf(path string) (map[string]string, error) {
 	Settings["up"] = "5"
 	Settings["down"] = "20"
 	Settings["congestion"] = "false"
-	Settings["readBuf"] = "1"
-	Settings["writeBuf"] = "1"
+	Settings["readBufferSize"] = "1"
+	Settings["writeBufferSize"] = "1"
 
 	// If user config not exist
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -45,26 +45,11 @@ func GetUserConf(path string) (map[string]string, error) {
 		return nil, err
 	}
 
-	// file to lines
-	lines := strings.Split(string(b), "\n")
-
-	for _, s := range lines {
-		// Split "k v" to {k,v}
-		line := strings.FieldsFunc(s, func(r rune) bool {
-			if r == ' ' || r == '\t' {
-				return true
-			}
-			return false
-		})
-
-		// check if is {k,v}
-		if len(line) != 2 {
-			continue
-		}
-
-		Settings[line[0]] = line[1] // Set Settings[k]=v
+	for k, v := range ParseV2GenConf(b) {
+		Settings[k] = v
 	}
-	return Settings, err
+
+	return Settings, nil
 }
 
 func GenConf(Settings map[string]string) ([]byte, error) {
@@ -223,8 +208,8 @@ const KcpObject = `
 		"uplinkCapacity": {{up}},
 		"downlinkCapacity": {{down}},
 		"congestion": {{congestion}},
-		"readBufferSize": {{readBuf}},
-		"writeBufferSize": {{writeBuf}},
+		"readBufferSize": {{readBufferSize}},
+		"writeBufferSize": {{writeBufferSize}},
 		"header": {
 		"type": "{{type}}"
 		}
