@@ -55,6 +55,14 @@ func GetUserConf(path string) (map[string]string, error) {
 func GenConf(Settings map[string]string) ([]byte, error) {
 	conf := ConfigTpl
 
+	if *tpl != "" {
+		b, err := ioutil.ReadFile(*tpl)
+		if err != nil {
+			return nil, err
+		}
+		conf = string(b)
+	}
+
 	// set china setting
 	if Settings["china"] == "true" {
 		conf = strings.ReplaceAll(conf, "{{china_ip}}", "\n"+`"geoip:cn",`)

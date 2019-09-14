@@ -36,6 +36,7 @@ var (
 	silent       = flag.Bool("silent", false,
 		"if you want to keep it silent (Select node by reading env NODE_NUM)")
 	vmessURIs = flag.String("vmess", "", "vmess://foo or vmess://foo;vmess://bar")
+	tpl       = flag.String("tpl", "", "v2ray json tpl file path")
 )
 
 func main() {
