@@ -9,7 +9,7 @@ Author Info :
 	Website	: https://iochen.com/
 
 Software Info :
-	Version			: V0.2.7
+	Version			: V0.2.8
 	Support format	: v2rayN/v2rayN/v2rayN/Mode/VmessQRCode.cs (Maybe, not tested all config types now)
 	License			: MIT LICENSE
 */
@@ -56,7 +56,6 @@ func main() {
 		panic("nothing to do")
 	}
 
-	fmt.Println("All is done!", "Please restart your V2Ray Service.")
 }
 
 func checkErr(err error) bool {

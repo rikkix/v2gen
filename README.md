@@ -1,6 +1,6 @@
 # V2Gen
 
-Generate V2Ray Json format from "vmess://{{base 64 encoded}}" URI format.
+Generate V2Ray Json format from `vmess://{{base 64 encoded}}` URI format.
 
 [简体中文](README_zh_cn.md)
 
@@ -111,7 +111,7 @@ writeBufferSize 1
 
 ## Version
 
-*V0.2.7*
+*V0.2.8*
 
 ## LINCENSE
 

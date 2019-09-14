@@ -32,16 +32,15 @@ func genFromURL() {
 	config, err := GenConf(Settings)
 	checkErr(err)
 
-	// write V2Ray json config
-	err = ioutil.WriteFile(*outPath, config, 0644)
-	checkErr(err)
-	fmt.Println("The config file has been written to", *outPath)
+	if *outPath != "" {
+		// write V2Ray json config
+		err = ioutil.WriteFile(*outPath, config, 0644)
+		checkErr(err)
+		fmt.Println("The config file has been written to", *outPath)
+	}
 
 	if *silent {
-		fmt.Println("=====================")
 		fmt.Println(string(config))
-		fmt.Println("=====================")
-		fmt.Println("All is done!", "Please restart your V2Ray Service.")
 		return
 	}
 
@@ -85,16 +84,15 @@ func genFromVmessURIs() {
 	config, err := GenConf(Settings)
 	checkErr(err)
 
-	// write V2Ray json config
-	err = ioutil.WriteFile(*outPath, config, 0644)
-	checkErr(err)
-	fmt.Println("The config file has been written to", *outPath)
+	if *outPath != "" {
+		// write V2Ray json config
+		err = ioutil.WriteFile(*outPath, config, 0644)
+		checkErr(err)
+		fmt.Println("The config file has been written to", *outPath)
+	}
 
 	if *silent {
-		fmt.Println("=====================")
 		fmt.Println(string(config))
-		fmt.Println("=====================")
-		fmt.Println("All is done!", "Please restart your V2Ray Service.")
 		return
 	}
 
