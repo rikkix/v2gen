@@ -66,7 +66,7 @@ func GenConf(Settings map[string]string) ([]byte, error) {
 	// set china setting
 	if Settings["china"] == "true" {
 		conf = strings.ReplaceAll(conf, "{{china_ip}}", "\n"+`"geoip:cn",`)
-		conf = strings.ReplaceAll(conf, "{{china_sites}}", chinaSites)
+		conf = strings.ReplaceAll(conf, "{{china_sites}}", ChinaSites)
 	} else {
 		conf = strings.ReplaceAll(conf, "{{china_ip}}", "")
 		conf = strings.ReplaceAll(conf, "{{china_sites}}", "")
@@ -83,7 +83,7 @@ func GenConf(Settings map[string]string) ([]byte, error) {
 	case "kcp":
 		conf = strings.ReplaceAll(conf, "{{kcp}}", KcpObject)
 	case "ws":
-		conf = strings.ReplaceAll(conf, "{{ws}}", wsObject)
+		conf = strings.ReplaceAll(conf, "{{ws}}", WsObject)
 	case "http":
 		conf = strings.ReplaceAll(conf, "{{http}}", HttpObject)
 		Settings["host"] = ParseHost(Settings["host"])
@@ -191,27 +191,28 @@ const ConfigTpl = `{
 	}
 }`
 
-const chinaSites = `
+const ChinaSites = `
 {
 	"type": "field",
 	"outboundTag": "direct",
     "domain": ["geosite:cn"] 
 },`
 
-const TLSObject = `{
+const (
+	TLSObject = `{
  		 "serverName": "{{address}}",
  		 "allowInsecure": {{allowInsecure}},
  		 "alpn": ["http/1.1"]
 		}`
 
-const wsObject = `{
+	WsObject = `{
  		 "path": "{{path}}",
  		 "headers": {
   		  "Host": "{{host}}"
  		 }
 		}`
 
-const KcpObject = `
+	KcpObject = `
 {
 		"mtu": {{mtu}},
 		"tti": {{tti}},
@@ -224,7 +225,7 @@ const KcpObject = `
 		"type": "{{type}}"
 		}
 		}`
-const (
+
 	HttpObject = `{
 		"host": [{{host}}],
 		"path": "{{path}}"
