@@ -9,7 +9,7 @@ Author Info :
 	Website	: https://iochen.com/
 
 Software Info :
-	Version			: V0.2.8
+	Version			: V0.2.10
 	Support format	: v2rayN/v2rayN/v2rayN/Mode/VmessQRCode.cs (Maybe, not tested all config types now)
 	License			: MIT LICENSE
 */
@@ -20,6 +20,8 @@ import (
 	"flag"
 	"fmt"
 )
+
+const ver = "V0.2.10"
 
 type Vmess struct {
 	Ps, Add, Id, Aid, Net, Type, Host, Path, Tls string
@@ -32,15 +34,23 @@ var (
 	url          = flag.String("u", "", "The URL to get nodes info from")
 	outPath      = flag.String("p", "/etc/v2ray/config.json", "V2Ray json config output path")
 	userConfPath = flag.String("c", "/etc/v2ray/v2gen.ini", "V2Gen config path")
-	initUserConf = flag.Bool("init", false, "if initialize V2Gen config")
-	silent       = flag.Bool("silent", false,
-		"if you want to keep it silent (Select node by reading env NODE_NUM)")
+	tpl          = flag.String("tpl", "", "v2ray json tpl file path")
+
 	vmessURIs = flag.String("vmess", "", "vmess://foo or vmess://foo;vmess://bar")
-	tpl       = flag.String("tpl", "", "v2ray json tpl file path")
+
+	initUserConf = flag.Bool("init", false, "if initialize V2Gen config")
+	fromEnv      = flag.Bool("env", false, "Choose node by reading env NODE_NUM (auto add -y param)")
+	chooseYes    = flag.Bool("y", false, "select \"yes\" when asking if preview config")
+	randChoose   = flag.Bool("r", false, "select nodes at random")
+	version      = flag.Bool("v", false, "version")
 )
 
 func main() {
 	flag.Parse()
+
+	if *version {
+		fmt.Println("Version:", ver)
+	}
 
 	if *initUserConf {
 		if !checkErr(InitV2GenConf(*userConfPath)) {

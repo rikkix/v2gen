@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"strconv"
+	"time"
 )
 
 func genFromURL() {
@@ -29,9 +31,12 @@ func genFromList(vmessList []Vmess) {
 		// Select Node
 		var n int
 		var err error
-		if *silent {
+		if *fromEnv {
 			n, err = strconv.Atoi(os.Getenv("NODE_NUM"))
 			checkErr(err)
+		} else if *randChoose {
+			rand.Seed(time.Now().UnixNano())
+			n = rand.Intn(len(vmessList))
 		} else {
 			n, err = SelectNode(vmessList)
 			checkErr(err)
@@ -56,7 +61,7 @@ func genFromList(vmessList []Vmess) {
 		fmt.Println("The config file has been written to", *outPath)
 	}
 
-	if *silent {
+	if *fromEnv || *chooseYes {
 		fmt.Println(string(config))
 		return
 	}

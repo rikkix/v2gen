@@ -2,6 +2,7 @@
 
 从 `vmess://{{base 64 encoded}}` 格式中生成 V2Ray json 文件
 
+*注：我们建议参阅英文资料*  
 [English](README.md)
 
 ## 如何使用
@@ -111,7 +112,7 @@ writeBufferSize 1
 
 ## 版本
 
-*V0.2.8*
+*V0.2.10*
 
 ## 协议
 

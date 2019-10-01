@@ -111,7 +111,7 @@ writeBufferSize 1
 
 ## Version
 
-*V0.2.8*
+*V0.2.10*
 
 ## LINCENSE
 
