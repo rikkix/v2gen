@@ -26,7 +26,3 @@ jobs:
 
     - name: Build
       run: go build -v .
-      
-    - name: Github Release
-      uses: elgohr/Github-Release-Action@2.0
-
