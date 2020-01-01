@@ -26,6 +26,7 @@ func GenSettings(node Vmess, path string) map[string]string {
 	Settings["type"] = node.Type
 	Settings["host"] = node.Host
 	Settings["type"] = node.Type
+	Settings["path"] = node.Path
 	return Settings
 }
 
