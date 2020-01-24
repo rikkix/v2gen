@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 )
@@ -19,7 +20,7 @@ func GenSettings(node Vmess, path string) map[string]string {
 	Settings["address"] = node.Add
 	Settings["serverPort"] = fmt.Sprintf("%v", node.Port)
 	Settings["uuid"] = node.Id
-	Settings["aid"] = node.Aid
+	Settings["aid"] = fmt.Sprintf("%v", node.Aid)
 	Settings["streamSecurity"] = node.Tls
 	Settings["network"] = node.Net
 	Settings["tls"] = node.Tls
@@ -79,7 +80,26 @@ func prettyPrint(b []byte) ([]byte, error) {
 
 func Base64Dec(str string) (string, error) {
 	de, err := base64.StdEncoding.DecodeString(str)
-	return string(de), err
+	if err == nil {
+		return string(de), err
+	}
+
+	de, err = base64.RawStdEncoding.DecodeString(str)
+	if err == nil {
+		return string(de), err
+	}
+
+	de, err = base64.URLEncoding.DecodeString(str)
+	if err == nil {
+		return string(de), err
+	}
+
+	de, err = base64.RawURLEncoding.DecodeString(str)
+	if err == nil {
+		return string(de), err
+	}
+
+	return "", errors.New("no proper base64 decode method for: " + str)
 }
 
 // remove protocol && second time decode
@@ -89,9 +109,21 @@ func RemoveProAndDec(vmessURI string) (string, error) {
 
 func SelectNode(vmessList []Vmess) (int, error) {
 	var i int
-	for i := 0; i < len(vmessList); i++ {
-		fmt.Printf("[%d]%s\n", i, vmessList[i].Ps)
+
+	if *noPing {
+		for i := 0; i < len(vmessList); i++ {
+			fmt.Printf("[%d] \t%s\n", i, vmessList[i].Ps)
+		}
+	} else {
+		for i := 0; i < len(vmessList); i++ {
+			fmt.Printf("[%d] \t%-25s\t[%s]\n", i, vmessList[i].Ps, Ping(vmessList[i].Add))
+		}
 	}
+
+	if *test {
+		return 0, nil
+	}
+
 	fmt.Print("=====================\nPlease Select: ")
 	_, err := fmt.Scanf("%d", &i)
 	return i, err

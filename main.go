@@ -24,10 +24,10 @@ import (
 const ver = "V0.2.10"
 
 type Vmess struct {
-	Ps, Add, Id, Aid, Net, Type, Host, Path, Tls string
+	Ps, Add, Id, Net, Type, Host, Path, Tls string
 
 	// in some vmess URIs is int type, some are string type
-	Port interface{}
+	Port, Aid interface{}
 }
 
 var (
@@ -39,9 +39,11 @@ var (
 	vmessURIs = flag.String("vmess", "", "vmess://foo or vmess://foo;vmess://bar")
 
 	initUserConf = flag.Bool("init", false, "if initialize V2Gen config")
-	fromEnv      = flag.Bool("env", false, "Choose node by reading env NODE_NUM (auto add -y param)")
+	numFlag      = flag.Int("n", -1, "Choose node (auto add -y param)")
 	chooseYes    = flag.Bool("y", false, "select \"yes\" when asking if preview config")
 	randChoose   = flag.Bool("r", false, "select nodes at random")
+	test         = flag.Bool("test", false, "only for test")
+	noPing       = flag.Bool("noPing", false, "disable ping function")
 	version      = flag.Bool("v", false, "version")
 )
 

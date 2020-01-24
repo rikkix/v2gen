@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
-	"os"
-	"strconv"
+
 	"time"
 )
 
@@ -31,8 +30,8 @@ func genFromList(vmessList []Vmess) {
 		// Select Node
 		var n int
 		var err error
-		if *fromEnv {
-			n, err = strconv.Atoi(os.Getenv("NODE_NUM"))
+		if *numFlag != -1 {
+			n = *numFlag
 			checkErr(err)
 		} else if *randChoose {
 			rand.Seed(time.Now().UnixNano())
@@ -61,7 +60,7 @@ func genFromList(vmessList []Vmess) {
 		fmt.Println("The config file has been written to", *outPath)
 	}
 
-	if *fromEnv || *chooseYes {
+	if (*numFlag != -1) || *chooseYes || *randChoose || *test {
 		fmt.Println(string(config))
 		return
 	}
