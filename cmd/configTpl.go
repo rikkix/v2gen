@@ -1,12 +1,24 @@
 package main
 
 import (
+	"github.com/iochen/v2gen/vmess"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 )
 
-func GetUserConf(path string) (map[string]string, error) {
+func GenSettings(node vmess.Link, userConfPath string) map[string]string {
+	Settings := node.Parse()
+
+	for k, v := range GetUserConf(userConfPath) {
+		Settings[k] = v
+	}
+
+	return Settings
+}
+
+func GetUserConf(path string) map[string]string {
 	Settings := make(map[string]string)
 
 	//default settings
@@ -36,27 +48,28 @@ func GetUserConf(path string) (map[string]string, error) {
 
 	// If user config not exist
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return Settings, nil
+		return Settings
 	}
 
 	// read user config file
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
-		return nil, err
+		log.Println(err)
+		return Settings
 	}
 
 	for k, v := range ParseV2GenConf(b) {
 		Settings[k] = v
 	}
 
-	return Settings, nil
+	return Settings
 }
 
 func GenConf(Settings map[string]string) ([]byte, error) {
 	conf := ConfigTpl
 
-	if *tpl != "" {
-		b, err := ioutil.ReadFile(*tpl)
+	if *flagTPL != "" {
+		b, err := ioutil.ReadFile(*flagTPL)
 		if err != nil {
 			return nil, err
 		}
@@ -96,7 +109,7 @@ func GenConf(Settings map[string]string) ([]byte, error) {
 		conf = strings.ReplaceAll(conf, "{{"+k+"}}", v)
 	}
 
-	return prettyPrint([]byte(conf))
+	return PrettyPrint([]byte(conf))
 }
 
 // from "aaa.ltd,bbb.ltd" to ""aaa.ltd","bbb.ltd""
