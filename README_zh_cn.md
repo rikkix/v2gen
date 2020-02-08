@@ -1,6 +1,6 @@
 # V2Gen
 
-从 `vmess://{{base 64 encoded}}` 格式中生成 V2Ray json 文件
+从 `vmess://` 格式中生成 V2Ray json 文件
 
 *注：我们建议参阅英文资料*  
 [English](README.md)
@@ -24,18 +24,28 @@ go build -o ./v2gen
 ## 参数
 
 ```Usage
+Usage of v2set:
 -c string
-	V2Gen config path (default "/etc/v2ray/v2gen.ini")
+    V2Gen config path (default "/etc/v2ray/v2gen.ini")
 -init
-	if initialize V2Gen config
+    if initialize V2Gen config
+-n int
+    Choose node (auto add -y param) (default -1)
+-noPing
+    disable ping function
 -p string
-	V2Ray json config output path (default "/etc/v2ray/config.json")
--silent
-	if you want to keep it silent (Select node by reading env NODE_NUM)
+    V2Ray json config output path (default "/etc/v2ray/config.json")
+-r    select nodes at random
+-test
+    only for test
+-tpl string
+    v2ray json tpl file path
 -u string
-	The URL to get nodes info from
+    The URL to get nodes info from
+-v    version
 -vmess string
-	vmess://foo or vmess://foo;vmess://bar
+    vmess://foo or vmess://foo;vmess://bar
+-y    select "yes" when asking if preview config
 ```
 
 ## V2Gen 用户配置
@@ -112,7 +122,7 @@ writeBufferSize 1
 
 ## 版本
 
-*V0.2.10*
+*V1.0.1*
 
 ## 协议
 

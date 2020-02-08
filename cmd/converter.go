@@ -1,7 +1,7 @@
 package main
 
 import (
-	base642 "github.com/iochen/v2gen/common/encoding/base64"
+	"github.com/iochen/v2gen/common/encoding/base64"
 	"github.com/iochen/v2gen/vmess"
 	"io/ioutil"
 	"log"
@@ -24,7 +24,7 @@ func URL2Pri(URL string) string {
 }
 
 func Pri2Sec(priData string) []string {
-	secRawData, err := base642.Decode(priData)
+	secRawData, err := base64.Decode(priData)
 	if err != nil {
 		log.Println(err)
 	}
@@ -41,7 +41,7 @@ func SecRaw2Sec(secRawData string) []string {
 		'\t': true,
 		'\f': true,
 		'\v': true,
-		'r':  true,
+		'\r': true,
 	}
 
 	return strings.FieldsFunc(secRawData, func(r rune) bool {

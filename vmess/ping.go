@@ -75,7 +75,7 @@ func sendICMPRequest(icmp icmp, destAddr *net.IPAddr) (error, float64) {
 }
 
 func (node *Link) Ping() string {
-	rAddr, err := net.ResolveIPAddr("ip", node.Host)
+	rAddr, err := net.ResolveIPAddr("ip", node.Add)
 	if err != nil {
 		return "Fail to resolve host." + err.Error()
 	}

@@ -1,6 +1,6 @@
 /*
 Intro :
-	Generate V2Ray Json format from "vmess://{{base 64 encoded}}" format
+	Generate V2Ray Json format from "vmess://" format
 
 Author Info :
 	Author	: Richard Chen
@@ -9,7 +9,7 @@ Author Info :
 	Website	: https://iochen.com/
 
 Software Info :
-	Version			: V0.2.10
+	Version			: V1.0.1
 	Support format	: v2rayN/v2rayN/v2rayN/Mode/VmessQRCode.cs (Maybe, not tested all config types now)
 	License			: MIT LICENSE
 */
@@ -21,7 +21,7 @@ import (
 	"fmt"
 )
 
-const ver = "V0.2.10"
+const ver = "V1.0.1"
 
 var (
 	flagURL      = flag.String("u", "", "The URL to get nodes info from")
