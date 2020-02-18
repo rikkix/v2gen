@@ -90,7 +90,7 @@ func (node *Link) Ping() string {
 		return "Error: " + err.Error()
 	}
 
-	return fmt.Sprintf("%.2fms (%s)", duration, node.Host)
+	return fmt.Sprintf("%.2fms (%s)", duration, node.Add)
 }
 
 func checkSum(data []byte) uint16 {
