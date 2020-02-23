@@ -52,7 +52,7 @@ Usage of v2set:
 
 你可以使用 `v2gen --init` 来生成一个新的
 
-```ini
+```yaml
 # V2Ray 日志等级
 # ( debug | info | warning | error | none )
 loglevel: warning
@@ -90,7 +90,7 @@ china: true
 
 下面的配置可能不会在所有节点上生效
 
-```ini
+```yaml
 # 是否允许不安全连接 ( true | false )
 allowInsecure: false
 
