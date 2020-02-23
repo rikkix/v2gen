@@ -49,7 +49,7 @@ Usage of v2set:
 
 You can use `v2gen --init` to generate one
 
-```ini
+```yaml
 # V2Ray log level
 # ( debug | info | warning | error | none )
 loglevel: warning
@@ -87,7 +87,7 @@ china: true
 
 The following config may NOT work on every node
 
-```ini
+```yaml
 # If allow insecure connection ( true | false )
 allowInsecure false
 
