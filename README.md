@@ -124,3 +124,7 @@ writeBufferSize: 1
 ## LINCENSE
 
 MIT LICENSE
+
+## Notice
+
+no support for version 1 format

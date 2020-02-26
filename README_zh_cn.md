@@ -127,3 +127,7 @@ writeBufferSize: 1
 ## 协议
 
 MIT LICENSE
+
+## 注意
+
+不支持第一版本格式
