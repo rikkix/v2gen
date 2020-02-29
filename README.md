@@ -4,6 +4,26 @@ Generate V2Ray json format from `vmess://` URI format.
 
 [简体中文](README_zh_cn.md)
 
+## Preview
+```
+[0]     中继香港G1 Media (HK)(1)        [80.01ms (cu2.example.com)]
+...
+[12]    BGP中继香港 5 Media (HK)(1)     [43.22ms (hk5.example.com)]
+[13]    BGP中继香港 6 Media (HK)(1)     [22.62ms (hk6.example.com)]
+[14]    BGP中继香港 7 Media (HK)(1)     [20.01ms (hk7.example.com)]
+[15]    BGP中继香港 8 Media (HK)(1)     [19.71ms (hk8.example.com)]
+[16]    BGP中继香港 9 Media (HK)(1)     [19.73ms (hk9.example.com)]
+[17]    BGP中继香港 10 Media (HK)(1)    [37.28ms (hk10.example.com)]
+[18]    BGP中继香港 11 Media (HK)(1)    [43.71ms (hk11.example.com)]
+...
+[47]    美国GIA 3 Media (US)(0.7)       [192.90ms (us3.example.com)]
+[48]    香港 8 (HK)(1)                  [64.42ms (hk9.example.com)]
+[49]    香港 9 (HK)(1)                  [72.44ms (hk10.example.com)]
+[50]    香港负载均衡 1 Test (HK)(1)      [18.62ms (93.184.216.34)]
+=====================
+Please Select:
+```
+
 ## How to use
 
 Build it first
