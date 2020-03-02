@@ -1,51 +1,46 @@
 # V2Gen
 
-从 `vmess://` 格式中生成 V2Ray json 文件
+V2Ray配置文件生成器
 
 *注：我们建议参阅英文资料*  
 [English](README.md)
 
 ## 如何使用
 
-先编译它
+先编译它（请确保您的`$GOPATH/bin/`已添加至`$PATH`中）
 
 ```sh
-git clone https://github.com/iochen/V2Gen.git
-cd ./V2Gen
-go build -o ./v2gen
+go get -u github.com/iochen/v2gen/cmd
 ```
   
 然后运行
 
 ```sh
-./v2gen -u {{你的订阅链接}} -p {{你V2Ray的配置文件路径}}
+v2gen -u {{你的订阅链接}} -o {{你V2Ray的配置文件路径}}
 ```
 
 ## 参数
 
 ```Usage
-Usage of v2set:
--c string
-    V2Gen config path (default "/etc/v2ray/v2gen.ini")
--init
-    if initialize V2Gen config
--n int
-    Choose node (auto add -y param) (default -1)
--noPing
-    disable ping function
--p string
-    V2Ray json config output path (default "/etc/v2ray/config.json")
--r    select nodes at random
--test
-    only for test
--tpl string
-    v2ray json tpl file path
--u string
-    The URL to get nodes info from
--v    version
--vmess string
-    vmess://foo or vmess://foo;vmess://bar
--y    select "yes" when asking if preview config
+Usage of v2gen:
+  -c string
+        v2gen配置文件路径 (default "/etc/v2ray/v2gen.ini")
+  -init
+        初始化v2gen配置文件
+  -n int
+        节点引索 (default -1)
+  -np
+        不ping
+  -o string
+        输出路径 (default "/etc/v2ray/config.json")
+  -r    随机节点引索
+  -tpl string
+        V2Ray模板路径
+  -u string
+        订阅链接
+  -v    展示版本
+  -vmess string
+        vmess 链接
 ```
 
 ## V2Gen 用户配置
@@ -122,7 +117,7 @@ writeBufferSize: 1
 
 ## 版本
 
-*V1.0.1*
+*V1.1.1*
 
 ## 协议
 

@@ -14,8 +14,8 @@ func SelectNode(vmessList *[]vmess.Link) (int, error) {
 	var n int
 
 	if len(*vmessList) > 1 {
-		if *flagNum != -1 {
-			n = *flagNum
+		if *flagIndex != -1 {
+			n = *flagIndex
 		} else if *flagRandom {
 			rand.Seed(time.Now().UnixNano())
 			n = rand.Intn(len(*vmessList))
@@ -29,10 +29,6 @@ func SelectNode(vmessList *[]vmess.Link) (int, error) {
 				for i := 0; i < len(*vmessList); i++ {
 					fmt.Printf("[%d] \t%-25s\t[%s]\n", i, (*vmessList)[i].Ps, (*vmessList)[i].Ping())
 				}
-			}
-
-			if *flagTest {
-				return 0, nil
 			}
 
 			fmt.Print("=====================\nPlease Select: ")
@@ -50,18 +46,6 @@ func SelectNode(vmessList *[]vmess.Link) (int, error) {
 	}
 
 	return n, nil
-}
-
-func AskIfPreview(config string) {
-	var ifPreview string
-	fmt.Print("=====================\nDo you want to preview the config?(y)es/(N)o: ")
-	_, err := fmt.Scanf("%s", &ifPreview)
-	checkErr(err)
-	fmt.Println("=====================")
-	if ifPreview == "y" || ifPreview == "Y" {
-		fmt.Println(config)
-		fmt.Println("=====================")
-	}
 }
 
 func PrettyPrint(b []byte) ([]byte, error) {

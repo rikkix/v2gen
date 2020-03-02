@@ -21,21 +21,19 @@ import (
 	"fmt"
 )
 
-const ver = "V1.0.1"
+const ver = "V1.0.2"
 
 var (
-	flagURL      = flag.String("u", "", "The URL to get nodes info from")
-	flagPath     = flag.String("p", "/etc/v2ray/config.json", "V2Ray json config output path")
-	flagUserConf = flag.String("c", "/etc/v2ray/v2gen.ini", "V2Gen config path")
-	flagTPL      = flag.String("tpl", "", "v2ray json tpl file path")
-	flagURIs     = flag.String("vmess", "", "vmess://foo or vmess://foo;vmess://bar")
-	flagInit     = flag.Bool("init", false, "if initialize V2Gen config")
-	flagNum      = flag.Int("n", -1, "Choose node (auto add -y param)")
-	flagYes      = flag.Bool("y", false, "select \"yes\" when asking if preview config")
-	flagRandom   = flag.Bool("r", false, "select nodes at random")
-	flagTest     = flag.Bool("test", false, "only for test")
-	flagNoPing   = flag.Bool("noPing", false, "disable ping function")
-	flagVersion  = flag.Bool("v", false, "version")
+	flagURL      = flag.String("u", "", "subscription URL")
+	flagPath     = flag.String("o", "/etc/v2ray/config.json", "output path")
+	flagUserConf = flag.String("c", "/etc/v2ray/v2gen.ini", "v2gen config path")
+	flagTPL      = flag.String("tpl", "", "V2Ray tpl path")
+	flagURIs     = flag.String("vmess", "", "vmess link(s)")
+	flagInit     = flag.Bool("init", false, "initialize v2gen config")
+	flagIndex    = flag.Int("n", -1, "node index")
+	flagRandom   = flag.Bool("r", false, "random node index")
+	flagNoPing   = flag.Bool("np", false, "do not ping")
+	flagVersion  = flag.Bool("v", false, "show version")
 )
 
 func main() {
@@ -43,10 +41,11 @@ func main() {
 
 	if *flagVersion {
 		fmt.Println("Version:", ver)
+		return
 	}
 
 	if *flagInit {
-		if !checkErr(InitV2GenConf(*flagPath)) {
+		if !checkErr(InitV2GenConf(*flagUserConf)) {
 			fmt.Println("V2Gen config initialized")
 		}
 		return

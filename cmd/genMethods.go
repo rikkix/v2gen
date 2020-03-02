@@ -23,17 +23,14 @@ func genFromVmessList(vmessList *[]vmess.Link) {
 	config, err := GenConf(Settings)
 	checkErr(err)
 
-	if *flagPath != "" {
+	op := *flagPath
+
+	if op == "" || op == "-" {
+		fmt.Println(string(config))
+	} else {
 		// write V2Ray json config
 		err = ioutil.WriteFile(*flagPath, config, 0644)
 		checkErr(err)
 		fmt.Println("The config file has been written to", *flagPath)
 	}
-
-	if (*flagNum != -1) || *flagYes || *flagRandom || *flagTest {
-		fmt.Println(string(config))
-		return
-	}
-
-	AskIfPreview(string(config))
 }

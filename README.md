@@ -1,6 +1,6 @@
 # v2gen
 
-Generate V2Ray json format from `vmess://` URI format.
+V2Ray config generator
 
 [简体中文](README_zh_cn.md)
 
@@ -15,34 +15,31 @@ go get -u github.com/iochen/v2gen/cmd
 Then run
 
 ```sh
-v2gen -u {{Your subscription link}} -p {{Your V2Ray config path}}
+v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
 ```
 
 ## Param
 
 ```Param
-Usage of v2set:
--c string
-    V2Gen config path (default "/etc/v2ray/v2gen.ini")
--init
-    if initialize V2Gen config
--n int
-    Choose node (auto add -y param) (default -1)
--noPing
-    disable ping function
--p string
-    V2Ray json config output path (default "/etc/v2ray/config.json")
--r    select nodes at random
--test
-    only for test
--tpl string
-    v2ray json tpl file path
--u string
-    The URL to get nodes info from
--v    version
--vmess string
-    vmess://foo or vmess://foo;vmess://bar
--y    select "yes" when asking if preview config
+Usage of v2gen:
+  -c string
+        v2gen config path (default "/etc/v2ray/v2gen.ini")
+  -init
+        initialize v2gen config
+  -n int
+        node index (default -1)
+  -np
+        do not ping
+  -o string
+        output path (default "/etc/v2ray/config.json")
+  -r    random node index
+  -tpl string
+        V2Ray tpl path
+  -u string
+        subscription URL
+  -v    show version
+  -vmess string
+        vmess link(s)
 ```
 
 ## V2Gen user config
@@ -119,7 +116,7 @@ writeBufferSize: 1
 
 ## Version
 
-*V1.0.1*
+*V1.1.1*
 
 ## LINCENSE
 
