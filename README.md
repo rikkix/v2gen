@@ -136,7 +136,7 @@ writeBufferSize: 1
 
 ## Version
 
-*V1.1.1*
+*V1.1.2*
 
 ## LINCENSE
 

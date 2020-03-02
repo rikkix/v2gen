@@ -21,7 +21,7 @@ import (
 	"fmt"
 )
 
-const ver = "V1.0.2"
+const ver = "V1.1.2"
 
 var (
 	flagURL      = flag.String("u", "", "subscription URL")
