@@ -40,7 +40,19 @@ Usage of v2gen:
         订阅链接
   -v    展示版本
   -vmess string
-        vmess 链接
+        vmess 链接              
+  -ct int
+        每个节点ping次数 (vmess ping only) (default 3)
+  -dest string
+        测试链接 (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
+  -eto int
+        每个请求超时时间（秒） (vmess ping only) (default 8)
+  -med
+        使用中位数而非算术平均 (vmess ping only)
+  -t    
+        使用 ICMP 而非 vmess ping
+  -tto int
+        每个节点超时时间（秒） (vmess ping only) (default 25)
 ```
 
 ## V2Gen 用户配置
@@ -117,11 +129,15 @@ writeBufferSize: 1
 
 ## 版本
 
-*V1.1.2*
+*V1.2.1*
 
 ## 协议
 
 MIT LICENSE
+
+## 参考
+
+[v2fly/vmessping](https://github.com/v2fly/vmessping)
 
 ## 注意
 

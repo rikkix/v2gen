@@ -1,25 +1,21 @@
 # v2gen
 
-V2Ray config generator
+A powerful V2Ray config generator
+
+You can use use vmess ping instead of ICMP ping
 
 [简体中文](README_zh_cn.md)
 
 ## Preview
 ```
-[0]     中继香港G1 Media (HK)(1)        [80.01ms (cu2.example.com)]
+[0] 	中继香港G1 Media (HK)(1)          	[522.574403ms (0 errors)]
+[1] 	中继香港G2 Media (HK)(1)          	[431.935749ms (0 errors)]
+[2] 	中继香港C1 Media (HK)(1)          	[425.1364ms (0 errors)]
+[3] 	中继香港C2 Media (HK)(1)          	[438.200824ms (0 errors)]
+[4] 	中继香港C3 Media (HK)(1)          	[517.56676ms (0 errors)]
+[5] 	中继香港C4 Media (HK)(1)          	[545.683673ms (0 errors)]
 ...
-[12]    BGP中继香港 5 Media (HK)(1)     [43.22ms (hk5.example.com)]
-[13]    BGP中继香港 6 Media (HK)(1)     [22.62ms (hk6.example.com)]
-[14]    BGP中继香港 7 Media (HK)(1)     [20.01ms (hk7.example.com)]
-[15]    BGP中继香港 8 Media (HK)(1)     [19.71ms (hk8.example.com)]
-[16]    BGP中继香港 9 Media (HK)(1)     [19.73ms (hk9.example.com)]
-[17]    BGP中继香港 10 Media (HK)(1)    [37.28ms (hk10.example.com)]
-[18]    BGP中继香港 11 Media (HK)(1)    [43.71ms (hk11.example.com)]
-...
-[47]    美国GIA 3 Media (US)(0.7)       [192.90ms (us3.example.com)]
-[48]    香港 8 (HK)(1)                  [64.42ms (hk9.example.com)]
-[49]    香港 9 (HK)(1)                  [72.44ms (hk10.example.com)]
-[50]    香港负载均衡 1 Test (HK)(1)      [18.62ms (93.184.216.34)]
+[50]    香港负载均衡 1 Test (HK)(1)           [496.28401ms (0 errors)]
 =====================
 Please Select:
 ```
@@ -44,8 +40,16 @@ v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
 Usage of v2gen:
   -c string
         v2gen config path (default "/etc/v2ray/v2gen.ini")
+  -ct int
+        ping count for each node (vmess ping only) (default 3)
+  -dest string
+        test destination url (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
+  -eto int
+        timeout seconds for each request (vmess ping only) (default 8)
   -init
         initialize v2gen config
+  -med
+        use median instead of ArithmeticMean (vmess ping only)
   -n int
         node index (default -1)
   -np
@@ -53,8 +57,11 @@ Usage of v2gen:
   -o string
         output path (default "/etc/v2ray/config.json")
   -r    random node index
+  -t    use ICMP ping instead of vmess ping
   -tpl string
         V2Ray tpl path
+  -tto int
+        timeout seconds for each node (vmess ping only) (default 25)
   -u string
         subscription URL
   -v    show version
@@ -136,11 +143,15 @@ writeBufferSize: 1
 
 ## Version
 
-*V1.1.2*
+*V1.2.1*
 
 ## LINCENSE
 
 MIT LICENSE
+
+## Reference
+
+[v2fly/vmessping](https://github.com/v2fly/vmessping)
 
 ## Notice
 

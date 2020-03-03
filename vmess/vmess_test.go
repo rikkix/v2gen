@@ -28,13 +28,10 @@ func TestLink_Parse(t *testing.T) {
 	t.Log(node.Parse())
 }
 
-func TestLink_Ping(t *testing.T) {
-	t.Log(node.Ping())
-}
-
 func TestGenerateFromSecData(t *testing.T) {
-	_, err := vmess.GenerateFromSecData(secData)
+	link, err := vmess.GenerateFromSecData(secData)
 	if err != nil {
 		t.Fatal(err)
 	}
+	t.Log(link)
 }

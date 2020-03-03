@@ -26,16 +26,29 @@ func SelectNode(vmessList *[]vmess.Link) (int, error) {
 					fmt.Printf("[%d] \t%s\n", i, (*vmessList)[i].Ps)
 				}
 			} else {
+				var pm = vmess.VMESS
+				if *flagICMP {pm=vmess.ICMP}
+
+				var m = vmess.ArithmeticMean
+				if *flagMedian{m= vmess.Median
+				}
+
+
+
 				for i := 0; i < len(*vmessList); i++ {
-					fmt.Printf("[%d] \t%-25s\t[%s]\n", i, (*vmessList)[i].Ps, (*vmessList)[i].Ping())
+					re,err := (*vmessList)[i].Ping(pm,m,*flagDest,*flagCount,*flagETO,*flagTTO,false)
+					if err !=nil {
+						log.Println(err)
+					}
+					fmt.Printf("[%d] \t%-30s\t[%s]\n", i, (*vmessList)[i].Ps,re)
 				}
 			}
 
-			fmt.Print("=====================\nPlease Select: ")
+SELECT:			fmt.Print("=====================\nPlease Select: ")
 			_, err := fmt.Scanf("%d", &n)
 			if err != nil {
 				log.Printf("%v\nSelect again!\n\n", err)
-				return SelectNode(vmessList)
+				goto SELECT
 			}
 
 		}

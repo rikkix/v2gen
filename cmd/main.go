@@ -19,9 +19,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/iochen/v2gen/infra/miniv2ray"
 )
 
-const ver = "V1.1.2"
+var (
+	V2GEN_VER = "V1.2.1"
+)
 
 var (
 	flagURL      = flag.String("u", "", "subscription URL")
@@ -33,6 +36,12 @@ var (
 	flagIndex    = flag.Int("n", -1, "node index")
 	flagRandom   = flag.Bool("r", false, "random node index")
 	flagNoPing   = flag.Bool("np", false, "do not ping")
+	flagDest     = flag.String("dest", "https://cloudflare.com/cdn-cgi/trace", "test destination url (vmess ping only)")
+	flagCount      = flag.Int("ct", 3, "ping count for each node (vmess ping only)")
+	flagETO      = flag.Int("eto", 8, "timeout seconds for each request (vmess ping only)")
+	flagTTO      = flag.Int("tto", 25, "timeout seconds for each node (vmess ping only)")
+	flagICMP	= flag.Bool("t",false,"use ICMP ping instead of vmess ping")
+	flagMedian = flag.Bool("med",false,"use median instead of ArithmeticMean (vmess ping only)")
 	flagVersion  = flag.Bool("v", false, "show version")
 )
 
@@ -40,13 +49,14 @@ func main() {
 	flag.Parse()
 
 	if *flagVersion {
-		fmt.Println("Version:", ver)
+		fmt.Println("v2gen version:", V2GEN_VER)
+		fmt.Println("V2Ray Core version:", miniv2ray.CoreVersion())
 		return
 	}
 
 	if *flagInit {
 		if !checkErr(InitV2GenConf(*flagUserConf)) {
-			fmt.Println("V2Gen config initialized")
+			fmt.Println("v2gen config initialized")
 		}
 		return
 	}
