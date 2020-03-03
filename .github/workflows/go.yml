@@ -34,7 +34,7 @@ jobs:
 
       - uses: actions-github/upx@master
         with:
-          file: '.'
+          file: './build/*'
           upx_args: '-9'
 
       - name: Package v2gen
