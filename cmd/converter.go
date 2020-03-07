@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/iochen/v2gen/common/encoding/base64"
-	"github.com/iochen/v2gen/vmess"
 	"io/ioutil"
+	"iochen.com/v2gen/common/encoding/base64"
+	"iochen.com/v2gen/vmess"
 	"log"
 	"net/http"
 	"strings"

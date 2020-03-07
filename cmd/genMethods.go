@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/iochen/v2gen/vmess"
 	"io/ioutil"
+	"iochen.com/v2gen/vmess"
 )
 
 func GenFromURL(URL string) {

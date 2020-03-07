@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/iochen/v2gen/vmess"
 	"io/ioutil"
+	"iochen.com/v2gen/vmess"
 	"log"
 	"os"
 	"strings"

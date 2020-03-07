@@ -1,7 +1,7 @@
 package vmess_test
 
 import (
-	"github.com/iochen/v2gen/vmess"
+	"iochen.com/v2gen/vmess"
 	"testing"
 )
 

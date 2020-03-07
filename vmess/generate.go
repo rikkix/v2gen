@@ -2,7 +2,7 @@ package vmess
 
 import (
 	"encoding/json"
-	"github.com/iochen/v2gen/common/encoding/base64"
+	"iochen.com/v2gen/common/encoding/base64"
 )
 
 func GenerateFromSecData(secData string) (Link, error) {

@@ -18,7 +18,7 @@ jobs:
       - name: Set variables
         run: |
           mkdir go release build
-          echo "::set-env name=REPO_URL::github.com/iochen/v2gen"
+          echo "::set-env name=REPO_URL::iochen.com/v2gen"
           echo "::set-env name=GOPATH::$(pwd)/go"
         shell: bash
 
@@ -29,7 +29,7 @@ jobs:
       - name: Build v2gen
         run: |
           LDFLAGS="-s -w"
-          CMDPATH=./go/src/github.com/iochen/v2gen/cmd/
+          CMDPATH=./go/src/iochen.com/v2gen/cmd/
           GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_linux ${CMDPATH}
 
       - uses: actions-github/upx@master

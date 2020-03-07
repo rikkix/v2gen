@@ -1,7 +1,7 @@
 package vmess_test
 
 import (
-	"github.com/iochen/v2gen/vmess"
+	"iochen.com/v2gen/vmess"
 	"os"
 	"testing"
 	"time"
@@ -16,9 +16,9 @@ func TestVmessPing(t *testing.T) {
 	}
 	t.Logf("%#v", lk)
 
-	ps, err := vmess.VmessPing(&lk, vmess.Median, 3, "https://cloudflare.com/cdn-cgi/trace", time.Duration(20), time.Duration(10),true)
+	ps, err := vmess.VmessPing(&lk, vmess.Median, 3, "https://cloudflare.com/cdn-cgi/trace", time.Duration(20), time.Duration(10), true)
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log( *ps)
+	t.Log(*ps)
 }

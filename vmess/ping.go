@@ -3,7 +3,7 @@ package vmess
 import (
 	"errors"
 	"fmt"
-	"github.com/iochen/v2gen/utils/icmpping"
+	"iochen.com/v2gen/utils/icmpping"
 	"time"
 )
 

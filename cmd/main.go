@@ -19,7 +19,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/iochen/v2gen/infra/miniv2ray"
+	"iochen.com/v2gen/infra/miniv2ray"
 )
 
 var (
@@ -37,11 +37,11 @@ var (
 	flagRandom   = flag.Bool("r", false, "random node index")
 	flagNoPing   = flag.Bool("np", false, "do not ping")
 	flagDest     = flag.String("dest", "https://cloudflare.com/cdn-cgi/trace", "test destination url (vmess ping only)")
-	flagCount      = flag.Int("ct", 3, "ping count for each node (vmess ping only)")
+	flagCount    = flag.Int("ct", 3, "ping count for each node (vmess ping only)")
 	flagETO      = flag.Int("eto", 8, "timeout seconds for each request (vmess ping only)")
 	flagTTO      = flag.Int("tto", 25, "timeout seconds for each node (vmess ping only)")
-	flagICMP	= flag.Bool("t",false,"use ICMP ping instead of vmess ping")
-	flagMedian = flag.Bool("med",false,"use median instead of ArithmeticMean (vmess ping only)")
+	flagICMP     = flag.Bool("t", false, "use ICMP ping instead of vmess ping")
+	flagMedian   = flag.Bool("med", false, "use median instead of ArithmeticMean (vmess ping only)")
 	flagVersion  = flag.Bool("v", false, "show version")
 )
 

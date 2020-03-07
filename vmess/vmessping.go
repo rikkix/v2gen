@@ -2,7 +2,7 @@ package vmess
 
 import (
 	"errors"
-	mv2ray "github.com/iochen/v2gen/infra/miniv2ray"
+	mv2ray "iochen.com/v2gen/infra/miniv2ray"
 	"log"
 	"sort"
 	"time"
@@ -21,17 +21,17 @@ type PingStat struct {
 	ErrCounter uint
 }
 
-func VmessPing(lk *Link, mtd Method, count int, dest string, totalTimeout , v2timeout time.Duration, verbose bool) (*PingStat, error) {
+func VmessPing(lk *Link, mtd Method, count int, dest string, totalTimeout, v2timeout time.Duration, verbose bool) (*PingStat, error) {
 	link := &mv2ray.Link{
-		Add: lk.Add,
-		Port : lk.Port,
-		Id:lk.Id,
-		Aid:lk.Aid,
-		Net:lk.Net,
+		Add:  lk.Add,
+		Port: lk.Port,
+		Id:   lk.Id,
+		Aid:  lk.Aid,
+		Net:  lk.Net,
 		Type: lk.Type,
-		Host:lk.Host,
-		Path:lk.Path,
-		TLS:lk.TLS,
+		Host: lk.Host,
+		Path: lk.Path,
+		TLS:  lk.TLS,
 	}
 
 	server, err := mv2ray.StartV2Ray(link, verbose)
@@ -54,7 +54,7 @@ func VmessPing(lk *Link, mtd Method, count int, dest string, totalTimeout , v2ti
 	timeout := make(chan bool, 1)
 
 	go func() {
-		time.Sleep(totalTimeout*time.Second)
+		time.Sleep(totalTimeout * time.Second)
 		timeout <- true
 	}()
 

@@ -10,7 +10,7 @@ V2Ray配置文件生成器
 先编译它（请确保您的`$GOPATH/bin/`已添加至`$PATH`中）
 
 ```sh
-go get -u github.com/iochen/v2gen/cmd
+go get -u iochen.com/v2gen/cmd
 ```
   
 然后运行
