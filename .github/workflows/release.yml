@@ -1,0 +1,57 @@
+name: Go
+on:
+  push:
+    tags:
+      - 'V*'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+
+      - name: Set variables
+        run: |
+          mkdir go release build
+          echo "::set-env name=REPO_URL::iochen.com/v2gen"
+          echo "::set-env name=GOPATH::$(pwd)/go"
+        shell: bash
+
+      - name: Go get project code
+        run: |
+          go get -u -v -insecure ${REPO_URL}/...
+
+      - name: Build v2gen
+        run: |
+          LDFLAGS="-s -w"
+          CMDPATH=./go/src/iochen.com/v2gen/cmd/
+          GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_linux ${CMDPATH}
+          GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_arm64_linux ${CMDPATH}
+          GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_linux ${CMDPATH}
+          GOOS=linux GOARCH=arm go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_arm_linux ${CMDPATH}
+          GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_windows ${CMDPATH}
+          GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_windows ${CMDPATH}
+
+      - uses: actions-github/upx@master
+        with:
+          file: './build/*'
+          upx_args: '-9'
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            ./build/v2gen_amd64_linux
+            ./build/v2gen_arm64_linux
+            ./build/v2gen_386_linux
+            ./build/v2gen_arm_linux
+            ./build/v2gen_amd64_windows
+            ./build/v2gen_386_windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
