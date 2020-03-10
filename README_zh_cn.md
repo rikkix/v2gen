@@ -5,6 +5,26 @@ V2Ray配置文件生成器
 *注：我们建议参阅英文资料*  
 [English](README.md)
 
+## 预览
+
+```
+[ 0] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
+[ 1] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
+[ 2] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
+[ 3] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
+[ 4] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
+[ 5] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
+[ 6] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
+[ 7] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
+[ 8] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 9] 中继香港G1 Media (HK)(1)      [1.35s  (1 errors)]
+...
+[50] 日本中继 3 Media (JP)(1)      [641ms  (0 errors)]
+=====================
+Please Select:
+```
+
+
 ## 如何使用
 
 先编译它（请确保您的`$GOPATH/bin/`已添加至`$PATH`中）
@@ -12,6 +32,7 @@ V2Ray配置文件生成器
 ```sh
 go get -u iochen.com/v2gen/cmd
 ```
+或到 GitHub Releases 中下载    
   
 然后运行
 
@@ -24,35 +45,37 @@ v2gen -u {{你的订阅链接}} -o {{你V2Ray的配置文件路径}}
 ```Usage
 Usage of v2gen:
   -c string
-        v2gen配置文件路径 (default "/etc/v2ray/v2gen.ini")
-  -init
-        初始化v2gen配置文件
-  -n int
-        节点引索 (default -1)
-  -np
-        不ping
-  -o string
-        输出路径 (default "/etc/v2ray/config.json")
-  -r    随机节点引索
-  -tpl string
-        V2Ray模板路径
-  -u string
-        订阅链接
-  -v    展示版本
-  -vmess string
-        vmess 链接              
+        v2gen 配置文件路径 (default "/etc/v2ray/v2gen.ini")
   -ct int
-        每个节点ping次数 (vmess ping only) (default 3)
+        ping 次数 (default 3)
   -dest string
         测试链接 (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
   -eto int
-        每个请求超时时间（秒） (vmess ping only) (default 8)
+        单个超时时间 (default 8)
+  -init
+        初始化 v2gen 配置
   -med
-        使用中位数而非算术平均 (vmess ping only)
+        使用中位数而不是算术平均 
+  -n int
+        节点引索 (default -1)
+  -np
+        别 ping
+  -o string
+        输出路径 (default "/etc/v2ray/config.json")
+  -r    
+        随机节点引索
   -t    
-        使用 ICMP 而非 vmess ping
+        使用 ICMP ping 而不是 vmess ping
+  -tpl string
+        V2Ray 模板路径
   -tto int
-        每个节点超时时间（秒） (vmess ping only) (default 25)
+        单个节点超时时间 (default 25)
+  -u string
+        订阅链接
+  -v    
+        展示版本
+  -vmess string
+        vmess 链接（们）
 ```
 
 ## V2Gen 用户配置
@@ -129,7 +152,7 @@ writeBufferSize: 1
 
 ## 版本
 
-*V1.2.1*
+*V1.3.1*
 
 ## 协议
 

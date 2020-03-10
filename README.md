@@ -10,14 +10,18 @@ You can use use vmess ping instead of ICMP ping
 
 ## Preview
 ```
-[0] 	中继香港G1 Media (HK)(1)          	[522.574403ms (0 errors)]
-[1] 	中继香港G2 Media (HK)(1)          	[431.935749ms (0 errors)]
-[2] 	中继香港C1 Media (HK)(1)          	[425.1364ms (0 errors)]
-[3] 	中继香港C2 Media (HK)(1)          	[438.200824ms (0 errors)]
-[4] 	中继香港C3 Media (HK)(1)          	[517.56676ms (0 errors)]
-[5] 	中继香港C4 Media (HK)(1)          	[545.683673ms (0 errors)]
+[ 0] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
+[ 1] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
+[ 2] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
+[ 3] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
+[ 4] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
+[ 5] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
+[ 6] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
+[ 7] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
+[ 8] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 9] 中继香港G1 Media (HK)(1)      [1.35s  (1 errors)]
 ...
-[50]    香港负载均衡 1 Test (HK)(1)           [496.28401ms (0 errors)]
+[50] 日本中继 3 Media (JP)(1)      [641ms  (0 errors)]
 =====================
 Please Select:
 ```
@@ -25,10 +29,10 @@ Please Select:
 ## How to use
 
 Build it first
-
 ```sh
 go get -u iochen.com/v2gen/cmd
 ```
+or Download in GitHub Releases  
   
 Then run
 
@@ -43,30 +47,33 @@ Usage of v2gen:
   -c string
         v2gen config path (default "/etc/v2ray/v2gen.ini")
   -ct int
-        ping count for each node (vmess ping only) (default 3)
+        ping count for each node (default 3)
   -dest string
         test destination url (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
   -eto int
-        timeout seconds for each request (vmess ping only) (default 8)
+        timeout seconds for each request (default 8)
   -init
         initialize v2gen config
   -med
-        use median instead of ArithmeticMean (vmess ping only)
+        use median instead of ArithmeticMean
   -n int
         node index (default -1)
   -np
         do not ping
   -o string
         output path (default "/etc/v2ray/config.json")
-  -r    random node index
-  -t    use ICMP ping instead of vmess ping
+  -r    
+        random node index
+  -t    
+        use ICMP ping instead of vmess ping
   -tpl string
         V2Ray tpl path
   -tto int
-        timeout seconds for each node (vmess ping only) (default 25)
+        timeout seconds for each node (default 25)
   -u string
         subscription URL
-  -v    show version
+  -v    
+        show version
   -vmess string
         vmess link(s)
 ```
@@ -115,7 +122,7 @@ The following config may NOT work on every node
 
 ```yaml
 # If allow insecure connection ( true | false )
-allowInsecure false
+allowInsecure: false
 
 # KCP mtu num
 mtu: 1350
@@ -145,7 +152,7 @@ writeBufferSize: 1
 
 ## Version
 
-*V1.2.1*
+*V1.3.1*
 
 ## LINCENSE
 
