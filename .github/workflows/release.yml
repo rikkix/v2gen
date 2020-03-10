@@ -34,12 +34,12 @@ jobs:
           GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_arm64_linux ${CMDPATH}
           GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_linux ${CMDPATH}
           GOOS=linux GOARCH=arm go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_arm_linux ${CMDPATH}
-          GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_windows ${CMDPATH}
-          GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_windows ${CMDPATH}
+          GOOS=windows GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_windows.exe ${CMDPATH}
+          GOOS=windows GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_windows.exe ${CMDPATH}
 
       - uses: actions-github/upx@master
         with:
-          file: './build/*'
+          dir: './build'
           upx_args: '-9'
 
       - name: Release
@@ -51,7 +51,7 @@ jobs:
             ./build/v2gen_arm64_linux
             ./build/v2gen_386_linux
             ./build/v2gen_arm_linux
-            ./build/v2gen_amd64_windows
-            ./build/v2gen_386_windows
+            ./build/v2gen_amd64_windows.exe
+            ./build/v2gen_386_windows.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
