@@ -1,8 +1,8 @@
-package main
+package v2gen
 
 import (
 	"io/ioutil"
-	"iochen.com/v2gen/vmess"
+	"iochen.com/v2gen/infra/vmess"
 	"log"
 	"os"
 	"strings"
@@ -68,8 +68,8 @@ func GetUserConf(path string) map[string]string {
 func GenConf(Settings map[string]string) ([]byte, error) {
 	conf := ConfigTpl
 
-	if *flagTPL != "" {
-		b, err := ioutil.ReadFile(*flagTPL)
+	if *FlagTPL != "" {
+		b, err := ioutil.ReadFile(*FlagTPL)
 		if err != nil {
 			return nil, err
 		}

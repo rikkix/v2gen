@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"iochen.com/v2gen/infra/vmess"
 	"strings"
 	"time"
 
@@ -22,20 +23,7 @@ import (
 	"v2ray.com/core/infra/conf"
 )
 
-
-type Link struct {
-	Add        string      `json:"add"`
-	Port       interface{} `json:"port"`
-	Id         string      `json:"id"`
-	Aid        interface{} `json:"aid"`
-	Net        string      `json:"net"`
-	Type       string      `json:"type"`
-	Host       string      `json:"host"`
-	Path       string      `json:"path"`
-	TLS        string      `json:"tls"`
-}
-
-func Vmess2Outbound(v *Link) (*core.OutboundHandlerConfig, error) {
+func Vmess2Outbound(v *vmess.Link) (*core.OutboundHandlerConfig, error) {
 
 	out := &conf.OutboundDetourConfig{}
 	out.Tag = "proxy"
@@ -111,7 +99,7 @@ func Vmess2Outbound(v *Link) (*core.OutboundHandlerConfig, error) {
 	return out.Build()
 }
 
-func StartV2Ray(lk *Link, verbose bool) (*core.Instance, error) {
+func StartV2Ray(lk *vmess.Link, verbose bool) (*core.Instance, error) {
 
 	loglevel := commlog.Severity_Error
 	if verbose {
