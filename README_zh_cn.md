@@ -109,8 +109,8 @@ mux: true
 concurrency: 8
 
 # DNS 服务器
-dns1: 9.9.9.9
-dns2: 1.1.1.1
+dns1: https://1.1.1.1/dns-query
+dns2: https://dns.quad9.net/dns-query
 
 # 中国IP与网站是否直连
 # ( true | false )

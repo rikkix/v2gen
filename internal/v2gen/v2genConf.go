@@ -46,7 +46,7 @@ func ParseV2GenConf(b []byte) map[string]string {
 
 		// Split "k v" to {k,v}
 		line := strings.FieldsFunc(s, func(r rune) bool {
-			if r == ' ' || r == '\t' || r == ':' {
+			if r == ' ' || r == '\t' {
 				return true
 			}
 			return false
@@ -56,6 +56,8 @@ func ParseV2GenConf(b []byte) map[string]string {
 		if len(line) != 2 {
 			continue
 		}
+
+		line[0] = strings.TrimRight(line[0], ":")
 
 		V2GenSettings[line[0]] = line[1] // Set Settings[k]=v
 	}
@@ -94,8 +96,8 @@ mux: true
 concurrency: 8
 
 # DNS server
-dns1: 9.9.9.9
-dns2: 1.1.1.1
+dns1: https://1.1.1.1/dns-query
+dns2: https://dns.quad9.net/dns-query
 
 # If China sites and ips directly connect
 # ( true | false )
