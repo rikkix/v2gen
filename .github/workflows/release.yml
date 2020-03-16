@@ -53,5 +53,7 @@ jobs:
             ./build/v2gen_arm_linux
             ./build/v2gen_amd64_windows.exe
             ./build/v2gen_386_windows.exe
+            ./go/src/iochen.com/v2gen/LICENSE
+            ./go/src/iochen.com/v2gen/README.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
