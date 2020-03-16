@@ -158,10 +158,6 @@ writeBufferSize: 1
 
 MIT LICENSE
 
-## 参考
-
-[v2fly/vmessping](https://github.com/v2fly/vmessping)
-
 ## 注意
 
 不支持第一版本格式
