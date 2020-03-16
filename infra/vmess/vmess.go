@@ -3,17 +3,16 @@ package vmess
 import "fmt"
 
 type Link struct {
-	Ps         string      `json:"ps"`
-	Add        string      `json:"add"`
-	Port       interface{} `json:"port"`
-	Id         string      `json:"id"`
-	Aid        interface{} `json:"aid"`
-	Net        string      `json:"net"`
-	Type       string      `json:"type"`
-	Host       string      `json:"host"`
-	Path       string      `json:"path"`
-	TLS        string      `json:"tls"`
-	PingResult string
+	Ps   string      `json:"ps"`
+	Add  string      `json:"add"`
+	Port interface{} `json:"port"`
+	Id   string      `json:"id"`
+	Aid  interface{} `json:"aid"`
+	Net  string      `json:"net"`
+	Type string      `json:"type"`
+	Host string      `json:"host"`
+	Path string      `json:"path"`
+	TLS  string      `json:"tls"`
 }
 
 func (node Link) Parse() map[string]string {
