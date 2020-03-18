@@ -10,7 +10,7 @@ import (
 
 type NodePing struct {
 	Index    int
-	PingStat *ping.PingStat
+	PingStat *ping.Status
 	Err      error
 }
 
@@ -33,7 +33,6 @@ func PingNodes(lks *[]vmess.Link, print bool) *[]NodePing {
 			waitList++
 			go MakeNode(k, v, &waitList, npCh, doneCh)
 		}
-
 	}()
 
 	for i := 0; i < len(*lks); i++ {
@@ -61,13 +60,14 @@ func MakeNode(k int, v vmess.Link, waitList *int, npCh chan NodePing, doneCh cha
 	doneCh <- true
 }
 
-func Ping(lk *vmess.Link) (*ping.PingStat, error) {
-	var ps *ping.PingStat
+func Ping(lk *vmess.Link) (*ping.Status, error) {
+	var ps *ping.Status
 	var err error
 	if *FlagICMP {
 		ps, err = icmpping.Ping(lk, *FlagCount, time.Duration(*FlagTTO), time.Duration(*FlagETO))
 	} else {
-		ps, err = vmessping.VmessPing(lk, *FlagCount, *FlagDest, time.Duration(*FlagTTO), time.Duration(*FlagETO), false)
+		ps, err = vmessping.VmessPing(lk, *FlagCount, *FlagDest,
+			time.Duration(*FlagTTO), time.Duration(*FlagETO), false)
 	}
 
 	if err != nil {

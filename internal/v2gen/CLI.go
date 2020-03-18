@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"iochen.com/v2gen/app/ping"
 	"iochen.com/v2gen/infra/mean"
 	"iochen.com/v2gen/infra/vmess"
 	"log"
@@ -80,7 +81,7 @@ func PrintNode(i int, vmessList *[]vmess.Link, np *NodePing) {
 		return
 	}
 
-	fmt.Printf("[%2d] %s%s[%-7s(%d errors)]\n", i, ps, spaceCount(30, ps), pr, np.PingStat.ErrCounter)
+	fmt.Printf("[%2d] %s%s[%-7s(%d errors)]\n", i, ps, spaceCount(30, ps), pr.(ping.Duration).Precision(1e6), np.PingStat.ErrCounter)
 }
 
 func spaceCount(i int, str string) string {

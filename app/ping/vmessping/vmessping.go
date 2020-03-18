@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func VmessPing(lk *vmess.Link, count int, dest string, totalTimeout, eachTimeout time.Duration, verbose bool) (*ping.PingStat, error) {
+func VmessPing(lk *vmess.Link, count int, dest string, totalTimeout, eachTimeout time.Duration, verbose bool) (*ping.Status, error) {
 	server, err := mv2ray.StartV2Ray(lk, verbose)
 	if err != nil {
 		log.Println(err)
@@ -24,7 +24,7 @@ func VmessPing(lk *vmess.Link, count int, dest string, totalTimeout, eachTimeout
 		}
 	}()
 
-	ps := &ping.PingStat{}
+	ps := &ping.Status{}
 
 	timeout := make(chan bool, 1)
 

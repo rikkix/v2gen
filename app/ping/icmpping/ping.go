@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type ICMP struct {
+type icmp struct {
 	Type        uint8
 	Code        uint8
 	CheckSum    uint16
@@ -18,8 +18,8 @@ type ICMP struct {
 	SequenceNum uint16
 }
 
-func getICMP() (*ICMP, error) {
-	icmp := &ICMP{Type: 8}
+func getICMP() (*icmp, error) {
+	icmp := &icmp{Type: 8}
 
 	var buffer bytes.Buffer
 
@@ -33,8 +33,8 @@ func getICMP() (*ICMP, error) {
 	return icmp, nil
 }
 
-func sendICMPRequest(icmp *ICMP, ip *net.IPAddr, timeout time.Duration) (time.Duration, error) {
-	conn, err := net.DialIP("ip4:ICMP", nil, ip)
+func sendICMPRequest(icmp *icmp, ip *net.IPAddr, timeout time.Duration) (time.Duration, error) {
+	conn, err := net.DialIP("ip4:icmp", nil, ip)
 	if err != nil {
 		return -1, err
 	}
@@ -72,8 +72,8 @@ func sendICMPRequest(icmp *ICMP, ip *net.IPAddr, timeout time.Duration) (time.Du
 	return end.Sub(start), nil
 }
 
-func Ping(lk *vmess.Link, count int, totalTimeout, eachTimeout time.Duration) (*ping.PingStat, error) {
-	ps := &ping.PingStat{}
+func Ping(lk *vmess.Link, count int, totalTimeout, eachTimeout time.Duration) (*ping.Status, error) {
+	ps := &ping.Status{}
 	icmp, err := getICMP()
 	if err != nil {
 		return nil, err
