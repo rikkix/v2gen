@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	V2GEN_VER = "V1.3.1"
+	V2GEN_VER = "V1.3.3"
 )
 
 func main() {
