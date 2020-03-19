@@ -142,7 +142,8 @@ const ConfigTpl = `{
       }
     }
   ],
-  "outbound": {
+  "outbounds": [ 
+	{
     "protocol": "vmess",
     "settings": {
       "vnext": [
@@ -166,13 +167,19 @@ const ConfigTpl = `{
       "kcpSettings": {{kcp}},
       "wsSettings": {{ws}},
       "httpSettings": {{http}},
-      "quicSettings": {{quic}}
-    },
-    "mux": {
-      "enabled": {{mux}},
-      "concurrency": {{concurrency}}
+      "quicSettings": {{quic}},
+	  "mux": {
+  		"enabled": {{mux}},
+      	"concurrency": {{concurrency}}
+      }
     }
-  },
+  	},
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+],
   "dns": {
     "servers": [
       "{{dns1}}",
@@ -180,13 +187,6 @@ const ConfigTpl = `{
       "localhost"
     ]
   },
-  "outboundDetour": [
-    {
-      "protocol": "freedom",
-      "settings": {},
-      "tag": "direct"
-    }
-  ],
 	"routing": {
 		"strategy": "rules",
 			"settings": {
