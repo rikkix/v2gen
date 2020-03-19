@@ -152,7 +152,10 @@ writeBufferSize: 1
 
 ## Version
 
-*V1.3.1*
+<!--version-->
+*V1.3.5*
+<!--version-end-->
+In case of any discrepancy or inconsistency between Version Number here and Tag, Tag shall prevail.
 
 ## LINCENSE
 

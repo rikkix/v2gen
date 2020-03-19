@@ -8,14 +8,14 @@ import (
 )
 
 var (
-	V2GEN_VER = "V1.3.1"
+	Version = "V1.3.* dev"
 )
 
 func main() {
 	flag.Parse()
 
 	if *v2gen.FlagVersion {
-		fmt.Println("v2gen version:", V2GEN_VER)
+		fmt.Println("v2gen version:", Version)
 		fmt.Println("V2Ray Core version:", miniv2ray.CoreVersion())
 		return
 	}
