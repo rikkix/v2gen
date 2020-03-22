@@ -79,11 +79,11 @@ func Ping(lk *vmess.Link, count int, totalTimeout, eachTimeout time.Duration) (*
 
 	icmp, err := getICMP()
 	if err != nil {
-		return nil, err
+		return ps, err
 	}
 	ip, err := net.ResolveIPAddr("ip", lk.Add)
 	if err != nil {
-		return nil, err
+		return ps, err
 	}
 
 	timeout := make(chan bool, 1)

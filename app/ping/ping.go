@@ -44,28 +44,9 @@ func (dList *DurationList) Swap(i, j int) {
 
 type Status struct {
 	Durations  *DurationList
-	Result     Duration
 	ErrCounter uint
 }
 
 func (ps *Status) Value(index int) mean.Value {
 	return (*ps.Durations)[index]
-}
-
-type StatusList []Status
-
-func (sList *StatusList) Len() int {
-	return len(*sList)
-}
-
-func (sList *StatusList) Less(i, j int) bool {
-	if (*sList)[i].ErrCounter != (*sList)[j].ErrCounter {
-		return (*sList)[i].ErrCounter < (*sList)[j].ErrCounter
-	}
-
-	return (*sList)[i].Result < (*sList)[j].Result
-}
-
-func (sList *StatusList) Swap(i, j int) {
-	(*sList)[i], (*sList)[j] = (*sList)[j], (*sList)[i]
 }

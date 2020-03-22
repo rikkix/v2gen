@@ -1,6 +1,8 @@
 package v2gen
 
-import "flag"
+import (
+	"flag"
+)
 
 var (
 	FlagURL      = flag.String("u", "", "subscription URL")
@@ -19,5 +21,7 @@ var (
 	FlagICMP     = flag.Bool("ic", false, "use ICMP ping instead of vmess ping")
 	FlagMedian   = flag.Bool("med", false, "use median instead of ArithmeticMean")
 	FlagThreads  = flag.Int("t", 5, "threads used when pinging")
+	FlagSort     = flag.Bool("sort", false, "sort ping results")
+	FlagBest     = flag.Bool("best", false, "use best node judged by ping result")
 	FlagVersion  = flag.Bool("v", false, "show version")
 )

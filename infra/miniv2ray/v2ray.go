@@ -122,7 +122,10 @@ func StartV2Ray(lk *vmess.Link, verbose bool) (*core.Instance, error) {
 		},
 	}
 
-	commlog.RegisterHandler(commlog.NewLogger(commlog.CreateStdoutLogWriter()))
+	if verbose {
+		commlog.RegisterHandler(commlog.NewLogger(commlog.CreateStdoutLogWriter()))
+	}
+
 	config.Outbound = []*core.OutboundHandlerConfig{ob}
 	server, err := core.New(config)
 	if err != nil {
