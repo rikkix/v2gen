@@ -44,6 +44,8 @@ v2gen -u {{你的订阅链接}} -o {{你V2Ray的配置文件路径}}
 
 ```Usage
 Usage of v2gen:
+  -best
+        使用最优节点
   -c string
         v2gen 配置文件路径 (default "/etc/v2ray/v2gen.ini")
   -ct int
@@ -64,6 +66,9 @@ Usage of v2gen:
         输出路径 (default "/etc/v2ray/config.json")
   -r    
         随机节点引索
+  -sort
+        排序
+   
   -t    
         使用 ICMP ping 而不是 vmess ping
   -tpl string

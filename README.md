@@ -44,6 +44,8 @@ v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
 
 ```Param
 Usage of v2gen:
+  -best
+        use best node judged by ping result
   -c string
         v2gen config path (default "/etc/v2ray/v2gen.ini")
   -ct int
@@ -52,6 +54,8 @@ Usage of v2gen:
         test destination url (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
   -eto int
         timeout seconds for each request (default 8)
+  -ic
+        use ICMP ping instead of vmess ping
   -init
         initialize v2gen config
   -med
@@ -62,20 +66,21 @@ Usage of v2gen:
         do not ping
   -o string
         output path (default "/etc/v2ray/config.json")
-  -r    
-        random node index
-  -t    
-        use ICMP ping instead of vmess ping
+  -r    random node index
+  -sort
+        sort ping results
+  -t int
+        threads used when pinging (default 5)
   -tpl string
         V2Ray tpl path
   -tto int
         timeout seconds for each node (default 25)
   -u string
         subscription URL
-  -v    
-        show version
+  -v    show version
   -vmess string
         vmess link(s)
+
 ```
 
 ## V2Gen user config
