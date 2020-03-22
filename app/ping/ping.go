@@ -7,11 +7,6 @@ import (
 
 type Duration time.Duration
 
-type Status struct {
-	Durations  []Duration
-	ErrCounter uint
-}
-
 func (d Duration) Precision(i int64) Duration {
 	p := Duration(i)
 	return (d / p) * p
@@ -29,18 +24,48 @@ func (d Duration) DividedBy(i int) mean.Value {
 	return d / Duration(i)
 }
 
+type DurationList []Duration
+
+func (dList *DurationList) Value(index int) mean.Value {
+	return (*dList)[index]
+}
+
+func (dList *DurationList) Len() int {
+	return len(*dList)
+}
+
+func (dList *DurationList) Less(i, j int) bool {
+	return (*dList)[i] < (*dList)[j]
+}
+
+func (dList *DurationList) Swap(i, j int) {
+	(*dList)[i], (*dList)[j] = (*dList)[j], (*dList)[i]
+}
+
+type Status struct {
+	Durations  *DurationList
+	Result     Duration
+	ErrCounter uint
+}
+
 func (ps *Status) Value(index int) mean.Value {
-	return ps.Durations[index]
+	return (*ps.Durations)[index]
 }
 
-func (ps *Status) Len() int {
-	return len(ps.Durations)
+type StatusList []Status
+
+func (sList *StatusList) Len() int {
+	return len(*sList)
 }
 
-func (ps *Status) Less(i, j int) bool {
-	return ps.Durations[i] < ps.Durations[j]
+func (sList *StatusList) Less(i, j int) bool {
+	if (*sList)[i].ErrCounter != (*sList)[j].ErrCounter {
+		return (*sList)[i].ErrCounter < (*sList)[j].ErrCounter
+	}
+
+	return (*sList)[i].Result < (*sList)[j].Result
 }
 
-func (ps *Status) Swap(i, j int) {
-	ps.Durations[i], ps.Durations[j] = ps.Durations[j], ps.Durations[i]
+func (sList *StatusList) Swap(i, j int) {
+	(*sList)[i], (*sList)[j] = (*sList)[j], (*sList)[i]
 }

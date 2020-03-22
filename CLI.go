@@ -71,9 +71,9 @@ func PrintNode(i int, vmessList *[]vmess.Link, np *NodePing) {
 	}
 
 	if *FlagMedian {
-		pr = mean.Median(np.PingStat)
+		pr = mean.Median(np.PingStat.Durations)
 	} else {
-		pr = mean.ArithmeticMean(np.PingStat)
+		pr = mean.ArithmeticMean(np.PingStat.Durations)
 	}
 
 	if pr == nil {

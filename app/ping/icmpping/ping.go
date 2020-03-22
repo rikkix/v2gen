@@ -73,7 +73,10 @@ func sendICMPRequest(icmp *icmp, ip *net.IPAddr, timeout time.Duration) (time.Du
 }
 
 func Ping(lk *vmess.Link, count int, totalTimeout, eachTimeout time.Duration) (*ping.Status, error) {
-	ps := &ping.Status{}
+	ps := &ping.Status{
+		Durations: &ping.DurationList{},
+	}
+
 	icmp, err := getICMP()
 	if err != nil {
 		return nil, err
@@ -103,7 +106,7 @@ L:
 		select {
 		case delay := <-chDelay:
 			if delay > 0 {
-				ps.Durations = append(ps.Durations, ping.Duration(delay))
+				*ps.Durations = append(*ps.Durations, ping.Duration(delay))
 			}
 		case <-timeout:
 			break L

@@ -24,7 +24,9 @@ func VmessPing(lk *vmess.Link, count int, dest string, totalTimeout, eachTimeout
 		}
 	}()
 
-	ps := &ping.Status{}
+	ps := &ping.Status{
+		Durations: &ping.DurationList{},
+	}
 
 	timeout := make(chan bool, 1)
 
@@ -47,7 +49,7 @@ L:
 		select {
 		case delay := <-chDelay:
 			if delay > 0 {
-				ps.Durations = append(ps.Durations, ping.Duration(delay))
+				*ps.Durations = append(*ps.Durations, ping.Duration(delay))
 			}
 		case <-timeout:
 			break L
