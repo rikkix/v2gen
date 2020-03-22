@@ -153,7 +153,7 @@ writeBufferSize: 1
 ## 版本
 
 <!--version-->
-*V1.3.5*
+*V1.4.1*
 <!--version-end-->
 若此处版本号与tag所示版本号相冲突，请以tag为准
 
