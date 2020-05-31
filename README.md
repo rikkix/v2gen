@@ -158,7 +158,7 @@ writeBufferSize: 1
 ## Version
 
 <!--version-->
-*V1.4.1*
+*V1.4.2*
 <!--version-end-->
 In case of any discrepancy or inconsistency between Version Number here and Tag, Tag shall prevail.
 

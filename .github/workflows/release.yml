@@ -29,7 +29,7 @@ jobs:
       - name: Build v2gen
         run: |
           LDFLAGS="-s -w -X main.Version=${GITHUB_REF##*/}"
-          CMDPATH=./go/src/iochen.com/v2gen/cmd/
+          CMDPATH=./go/src/iochen.com/v2gen/cmd/v2gen/
           GOOS=linux GOARCH=amd64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_amd64_linux ${CMDPATH}
           GOOS=linux GOARCH=arm64 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_arm64_linux ${CMDPATH}
           GOOS=linux GOARCH=386 go build -ldflags="${LDFLAGS}" -v -o ./build/v2gen_386_linux ${CMDPATH}
