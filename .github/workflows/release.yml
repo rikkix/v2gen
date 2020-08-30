@@ -1,4 +1,4 @@
-name: Go
+name: Release
 on:
   push:
     tags:
@@ -56,8 +56,10 @@ jobs:
             ./build/v2gen_arm_linux
             ./build/v2gen_amd64_windows.exe
             ./build/v2gen_386_windows.exe
+            ./build/v2gen_amd64_linux_static
             ./LICENSE
             ./README.md
+            ./README_zh_cn.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
