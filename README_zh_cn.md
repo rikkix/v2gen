@@ -1,159 +1,361 @@
-# V2Gen
+# v2gen
 
-V2Ray配置文件生成器
+v2gen 是一个强大的 V2Ray 订阅客户端，使用 vmessping 代替 ICMP ping
+
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?)](https://pkg.go.dev/iochen.com/v2gen)
+![GitHub top language](https://img.shields.io/github/languages/top/iochen/v2gen)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) 
+![Go](https://github.com/iochen/v2gen/workflows/Test/badge.svg) 
 
 [English](README.md)
 
 ## 预览
-
 ```
-[ 0] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
-[ 1] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
-[ 2] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
-[ 3] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
-[ 4] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
-[ 5] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
-[ 6] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
-[ 7] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
-[ 8] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 0] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
+[ 1] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
+[ 2] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
+[ 3] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
+[ 4] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
+[ 5] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
+[ 6] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
+[ 7] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 8] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
 [ 9] 中继香港G1 Media (HK)(1)      [1.35s  (1 errors)]
 ...
-[50] 日本中继 3 Media (JP)(1)      [641ms  (0 errors)]
 =====================
 Please Select:
 ```
-[*service provider aff*](https://duangcloud.org/aff.php?aff=502)
+[*服务提供商 aff*](https://duangcloud.org/aff.php?aff=502)
 
-## 如何使用
 
-先编译它（请确保您的`$GOPATH/bin/`已添加至`$PATH`中）
 
-```sh
-go get -u iochen.com/v2gen/cmd
-```
-或到 GitHub Releases 中下载    
-  
-然后运行
+## 编译或下载
 
 ```sh
-v2gen -u {{你的订阅链接}} -o {{你V2Ray的配置文件路径}}
+git clone https://github.com/iochen/v2gen/ && cd v2gen
+env GOPRIVATE=github.com/v2ray/v2ray-core go build ./cmd/v2gen
 ```
+或在 GitHub Release 上下载
+
+
+
+## 快速开始
+
+```sh
+v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
+```
+
+
 
 ## 参数
 
-```Usage
+```Param
 Usage of v2gen:
   -best
-        使用最优节点
-  -c string
+        根据 ping 的结果选择最优节点
+  -c int
+        每个节点 ping 的次数 (default 3)
+  -config string
         v2gen 配置文件路径 (default "/etc/v2ray/v2gen.ini")
-  -ct int
-        ping 次数 (default 3)
-  -dest string
-        测试链接 (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
-  -eto int
-        单个超时时间 (default 8)
+  -dst string
+        测试目标地址 (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
   -init
-        初始化 v2gen 配置
-  -med
-        使用中位数而不是算术平均 
-  -n int
-        节点引索 (default -1)
-  -np
-        别 ping
+        初始化 v2gen 配置 (specify certain path with -config)
+  -log string
+        日志输出文件 (default "-")
+  -loglevel string
+        日志等级 (default "warn")
   -o string
         输出路径 (default "/etc/v2ray/config.json")
-  -r    
-        随机节点引索
-  -sort
-        排序
-   
-  -t    
-        使用 ICMP ping 而不是 vmess ping
-  -tpl string
+  -ping
+        ping 节点 (default true)
+  -pipe
+        自动从 pipe 中读取 (default true)
+  -random
+        随机节点
+  -template string
         V2Ray 模板路径
-  -tto int
-        单个节点超时时间 (default 25)
+  -thread int
+        ping 线程数 (default 3)
   -u string
-        订阅链接
-  -v    
-        展示版本
-  -vmess string
-        vmess 链接（们）
+        订阅链接 (URL)
+  -v    展示版本
 ```
 
-## V2Gen 用户配置
 
-你可以使用 `v2gen --init` 来生成一个新的
+
+## v2gen 用户配置
+
+你可以使用 `v2gen --init` 来生成初始化配置文件
 
 ```yaml
-# V2Ray 日志等级
+# V2Ray log level
 # ( debug | info | warning | error | none )
 loglevel: warning
 
-# Socks 端口
+# Socks port
 socksPort: 1080
 
-# Http 端口
+# Http port
 httpPort: 1081
 
-# 是否允许UDP流量
+# If allow UDP traffic
 # ( true | false )
 udp: true
 
-# 安全
+# Security
 # ( aes-128-gcm | aes-256-gcm | chacha20-poly1305 | auto | none )
 security: aes-256-gcm
 
-# 是否开启 mux
+# If enable mux
 # ( true | false )
 mux: true
 
-# Mux 并发数
+# Mux concurrency num
 concurrency: 8
 
-# DNS 服务器
+# DNS server
 dns1: https://1.1.1.1/dns-query
 dns2: https://dns.quad9.net/dns-query
 
-# 中国IP与网站是否直连
+# If China sites and ips directly connect
 # ( true | false )
 china: true
 
 ```
 
-下面的配置可能不会在所有节点上生效
+以下配置可能不对每个节点都有效
 
 ```yaml
-# 是否允许不安全连接 ( true | false )
+# If allow insecure connection ( true | false )
 allowInsecure: false
 
-# KCP mtu 值
+# KCP mtu num
 mtu: 1350
 
-# KCP tti 值
+# KCP tti num
 tti: 20
 
-# KCP 最大上行速度
-# 单位: MB/s
+# KCP max upload speed
+# Unit: MB/s
 up: 5
 
-# KCP 最大下行速度
-# 单位: MB/s
+# KCP max download speed
+# Unit: MB/s
 down: 20
 
-# 是否开启 UDP 拥堵控制 ( true | false )
+# If enable UDP congestion control ( true | false )
 congestion: false
 
-# 读缓冲区大小
-# 单位: MB
+# Read buffer size
+# Unit: MB
 readBufferSize: 1
 
-# 写缓冲区大小
-# 单位: MB
+# Write buffer size
+# Unit: MB
 writeBufferSize: 1
 ```
 
-## 协议
+
+
+## 模板文件
+
+### 渲染流程
+
+1. 将所有配置（节点信息，用户配置，默认配置 （排名分先后））转化为 `key-value` 对（哈系表）
+2. 读取用户模板或使用默认模板，并加载
+3. 将加载好的模板文件中 `{{foobar}}` 部分替换为 1 中哈系表中 `foobar` 所对的键值（[关键词会进行特殊处理](#关键词)）
+4. 输出
+
+### 关键词
+
+#### china
+
+如果值为 `true`，则将模板文件中 `{{china_ip}}` 与 `{{china_sites}}` 替换为
+
+```
+"geoip:cn",
+```
+
+和
+
+```
+{
+	"type": "field",
+	"outboundTag": "direct",
+    "domain": ["geosite:cn"] 
+},
+```
+
+否则，则将配置文件中 `{{china_ip}}` 与 `{{china_sites}}` 均替换为空白
+
+#### tls
+
+如果值为 `tls`，则将模板文件中 `{{tls}}` 替换为
+
+```
+{
+ 		 "serverName": "{{address}}",
+ 		 "allowInsecure": {{allowInsecure}},
+ 		 "alpn": ["http/1.1"]
+}
+```
+
+否则则将模板文件中 `{{tls}}` 替换为 `null`，
+
+#### network
+
+值为 `kcp`：将 `{{kcp}}` 替换为
+
+```
+{
+		"mtu": {{mtu}},
+		"tti": {{tti}},
+		"uplinkCapacity": {{up}},
+		"downlinkCapacity": {{down}},
+		"congestion": {{congestion}},
+		"readBufferSize": {{readBufferSize}},
+		"writeBufferSize": {{writeBufferSize}},
+		"header": {
+		"type": "{{type}}"
+		}
+}
+```
+
+值为 `ws`：将 `{{ws}}` 替换为
+
+```
+{
+		"mtu": {{mtu}},
+		"tti": {{tti}},
+		"uplinkCapacity": {{up}},
+		"downlinkCapacity": {{down}},
+		"congestion": {{congestion}},
+		"readBufferSize": {{readBufferSize}},
+		"writeBufferSize": {{writeBufferSize}},
+		"header": {
+		"type": "{{type}}"
+		}
+}
+```
+
+值为 `http`：将`{{http}}` 替换为
+
+```
+{
+		"host": [{{host}}],
+		"path": "{{path}}"
+}
+```
+
+并将哈系表中 `host` 所对值由 `foo,bar,foobar` 修改为 `"foo","bar","foobar"`
+
+值为 `quic`：将`{{quic}}` 替换为
+
+```
+{
+		  "security": "{{host}}",
+		  "key": "{{path}}",
+		  "header": {
+		    "type": "{{type}}"
+		  }
+}
+```
+
+否则将不做修改
+
+### 其他
+
+#### 计划
+
+使用 `text/template` 代替现有方案
+
+#### 默认模板文件
+
+```json
+{
+  "log": {
+    "loglevel": "{{loglevel}}"
+  },
+  "inbounds": [
+    {
+      "port": {{socksPort}},
+      "protocol": "socks",
+      "settings": {
+		"udp": {{udp}}
+      }
+    },
+    {
+      "port": {{httpPort}},
+      "protocol": "http",
+      "settings": {
+		"udp": {{udp}}
+      }
+    }
+  ],
+  "outbounds": [ 
+	{
+    "protocol": "vmess",
+    "settings": {
+      "vnext": [
+        {
+          "address": "{{address}}",
+          "port": {{serverPort}},
+          "users": [
+            {
+              "id": "{{uuid}}",
+              "alterId": {{aid}},
+              "security": "{{security}}"
+            }
+          ]
+        }
+      ]
+    },
+    "streamSettings": {
+      "network": "{{network}}",
+      "security": "{{streamSecurity}}",
+      "tlsSettings": {{tls}},
+      "kcpSettings": {{kcp}},
+      "wsSettings": {{ws}},
+      "httpSettings": {{http}},
+      "quicSettings": {{quic}},
+	  "mux": {
+  		"enabled": {{mux}},
+      	"concurrency": {{concurrency}}
+      }
+    }
+  	},
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+],
+  "dns": {
+    "servers": [
+      "{{dns1}}",
+      "{{dns2}}",
+      "localhost"
+    ]
+  },
+	"routing": {
+		"strategy": "rules",
+			"settings": {
+			"domainStrategy": "IPIfNonMatch",
+				"rules": [{{china_sites}}
+					{
+    			    "type": "field",
+    			    "outboundTag": "direct",
+     			    "ip": [{{china_ip}}
+       				    "geoip:private"
+					]
+				}
+			]
+		}
+	}
+}
+```
+
+## LICENSE
 
 MIT LICENSE

@@ -7,40 +7,37 @@ You can use use vmess ping instead of ICMP ping
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?)](https://pkg.go.dev/iochen.com/v2gen)
 ![GitHub top language](https://img.shields.io/github/languages/top/iochen/v2gen)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) 
-![Go](https://github.com/iochen/v2gen/workflows/Go/badge.svg) 
- 
+![Go](https://github.com/iochen/v2gen/workflows/Test/badge.svg) 
+
 
 [简体中文](README_zh_cn.md)
 
 ## Preview
 ```
-[ 0] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
-[ 1] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
-[ 2] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
-[ 3] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
-[ 4] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
-[ 5] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
-[ 6] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
-[ 7] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
-[ 8] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 0] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
+[ 1] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
+[ 2] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
+[ 3] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
+[ 4] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
+[ 5] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
+[ 6] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
+[ 7] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
+[ 8] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
 [ 9] 中继香港G1 Media (HK)(1)      [1.35s  (1 errors)]
 ...
-[50] 日本中继 3 Media (JP)(1)      [641ms  (0 errors)]
 =====================
 Please Select:
 ```
 [*service provider aff*](https://duangcloud.org/aff.php?aff=502)
 
-## How to use
-
-Build it first
+## Build or Download
 ```sh
-go get -u iochen.com/v2gen/cmd
+git clone https://github.com/iochen/v2gen/ && cd v2gen
+env GOPRIVATE=github.com/v2ray/v2ray-core go build ./cmd/v2gen
 ```
 or Download in GitHub Releases  
-  
-Then run
 
+## Quick start
 ```sh
 v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
 ```
@@ -48,44 +45,36 @@ v2gen -u {{Your subscription link}} -o {{Your V2Ray config path}}
 ## Param
 
 ```Param
-Usage of v2gen:
+Usage of ./v2gen:
   -best
         use best node judged by ping result
-  -c string
-        v2gen config path (default "/etc/v2ray/v2gen.ini")
-  -ct int
+  -c int
         ping count for each node (default 3)
-  -dest string
+  -config string
+        v2gen config path (default "/etc/v2ray/v2gen.ini")
+  -dst string
         test destination url (vmess ping only) (default "https://cloudflare.com/cdn-cgi/trace")
-  -eto int
-        timeout seconds for each request (default 8)
-  -ic
-        use ICMP ping instead of vmess ping
   -init
-        initialize v2gen config
-  -med
-        use median instead of ArithmeticMean
-  -n int
-        node index (default -1)
-  -np
-        do not ping
+        init v2gen config (specify certain path with -config)
+  -log string
+        log output file (default "-")
+  -loglevel string
+        log level (default "warn")
   -o string
         output path (default "/etc/v2ray/config.json")
-  -r    random node index
-  -sort
-        sort ping results
-  -t int
-        threads used when pinging (default 5)
-  -tpl string
-        V2Ray tpl path
-  -tto int
-        timeout seconds for each node (default 25)
+  -ping
+        ping nodes (default true)
+  -pipe
+        read from pipe (default true)
+  -random
+        random node index
+  -template string
+        V2Ray template path
+  -thread int
+        threads used when pinging (default 3)
   -u string
-        subscription URL
+        subscription address(URL)
   -v    show version
-  -vmess string
-        vmess link(s)
-
 ```
 
 ## V2Gen user config
