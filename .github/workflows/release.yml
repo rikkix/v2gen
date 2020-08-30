@@ -20,7 +20,7 @@ jobs:
 
       - name: set variables
         run: |
-          mkdir go build
+          mkdir build
           echo "::set-env name=VERSION::${GITHUB_REF##*/}"
           echo "::set-env name=GOPRIVATE::github.com/v2ray/v2ray-core"
         shell: bash
