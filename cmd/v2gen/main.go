@@ -30,7 +30,7 @@ import (
 )
 
 var (
-	Version = "dev"
+	Version = "v2.0.0-dev"
 
 	FlagLoglevel = flag.String("loglevel", "warn", "log level")
 	FlagLog      = flag.String("log", "-", "log output file")
