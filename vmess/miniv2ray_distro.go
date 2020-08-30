@@ -1,7 +1,6 @@
-package miniv2ray
+package vmess
 
 import (
-
 	// The following are necessary as they register handlers in their init functions.
 	// Required features. Can't remove unless there is replacements.
 	_ "v2ray.com/core/app/dispatcher"

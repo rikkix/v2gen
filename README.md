@@ -4,7 +4,11 @@ A powerful V2Ray config generator
 
 You can use use vmess ping instead of ICMP ping
 
-![GitHub top language](https://img.shields.io/github/languages/top/iochen/v2gen) ![Go](https://github.com/iochen/v2gen/workflows/Go/badge.svg) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) 
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?)](https://pkg.go.dev/iochen.com/v2gen)
+![GitHub top language](https://img.shields.io/github/languages/top/iochen/v2gen)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) 
+![Go](https://github.com/iochen/v2gen/workflows/Go/badge.svg) 
+ 
 
 [简体中文](README_zh_cn.md)
 
@@ -25,6 +29,7 @@ You can use use vmess ping instead of ICMP ping
 =====================
 Please Select:
 ```
+[*service provider aff*](https://duangcloud.org/aff.php?aff=502)
 
 ## How to use
 
@@ -155,17 +160,6 @@ readBufferSize: 1
 writeBufferSize: 1
 ```
 
-## Version
-
-<!--version-->
-*V1.4.2*
-<!--version-end-->
-In case of any discrepancy or inconsistency between Version Number here and Tag, Tag shall prevail.
-
 ## LINCENSE
 
 MIT LICENSE
-
-## Notice
-
-no support for version 1 format

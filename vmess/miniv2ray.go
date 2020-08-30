@@ -1,17 +1,15 @@
-package miniv2ray
+package vmess
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"iochen.com/v2gen/infra/vmess"
-	"strings"
-	"time"
-
-	"context"
-	"errors"
 	"net"
 	"net/http"
+	"strings"
+	"time"
 
 	"v2ray.com/core"
 	"v2ray.com/core/app/dispatcher"
@@ -23,12 +21,15 @@ import (
 	"v2ray.com/core/infra/conf"
 )
 
-func Vmess2Outbound(v *vmess.Link) (*core.OutboundHandlerConfig, error) {
-
+func Vmess2Outbound(v *Link, usemux bool) (*core.OutboundHandlerConfig, error) {
 	out := &conf.OutboundDetourConfig{}
 	out.Tag = "proxy"
 	out.Protocol = "vmess"
 	out.MuxSettings = &conf.MuxConfig{}
+	if usemux {
+		out.MuxSettings.Enabled = true
+		out.MuxSettings.Concurrency = 8
+	}
 
 	p := conf.TransportProtocol(v.Net)
 	s := &conf.StreamConfig{
@@ -76,7 +77,12 @@ func Vmess2Outbound(v *vmess.Link) (*core.OutboundHandlerConfig, error) {
 	}
 
 	if v.TLS == "tls" {
-		s.TLSSettings = &conf.TLSConfig{Insecure: true}
+		s.TLSSettings = &conf.TLSConfig{
+			Insecure: true,
+		}
+		if v.Host != "" {
+			s.TLSSettings.ServerName = v.Host
+		}
 	}
 
 	out.StreamSetting = s
@@ -94,19 +100,18 @@ func Vmess2Outbound(v *vmess.Link) (*core.OutboundHandlerConfig, error) {
       ]
     }
   ]
-}`, v.Add, v.Port, v.Id, v.Aid)))
+}`, v.Add, v.Port, v.ID, v.Aid)))
 	out.Settings = &oset
 	return out.Build()
 }
 
-func StartV2Ray(lk *vmess.Link, verbose bool) (*core.Instance, error) {
-
+func startV2Ray(lk *Link, verbose, usemux bool) (*core.Instance, error) {
 	loglevel := commlog.Severity_Error
 	if verbose {
 		loglevel = commlog.Severity_Debug
 	}
 
-	ob, err := Vmess2Outbound(lk)
+	ob, err := Vmess2Outbound(lk, usemux)
 	if err != nil {
 		return nil, err
 	}
@@ -122,10 +127,7 @@ func StartV2Ray(lk *vmess.Link, verbose bool) (*core.Instance, error) {
 		},
 	}
 
-	if verbose {
-		commlog.RegisterHandler(commlog.NewLogger(commlog.CreateStdoutLogWriter()))
-	}
-
+	// commlog.RegisterHandler(commlog.NewLogger(commlog.CreateStderrLogWriter()))
 	config.Outbound = []*core.OutboundHandlerConfig{ob}
 	server, err := core.New(config)
 	if err != nil {
@@ -135,22 +137,22 @@ func StartV2Ray(lk *vmess.Link, verbose bool) (*core.Instance, error) {
 	return server, nil
 }
 
-func MeasureDelay(inst *core.Instance, timeout time.Duration, dest string) (time.Duration, error) {
+func measureDelay(inst *core.Instance, timeout time.Duration, dest string) (time.Duration, error) {
 	start := time.Now()
 	code, _, err := CoreHTTPRequest(inst, timeout, "GET", dest)
 	if err != nil {
 		return -1, err
 	}
-	if code != http.StatusOK {
-		return -1, fmt.Errorf("status incorrect (!= 200): %d", code)
+	if code > 399 {
+		return -1, fmt.Errorf("status incorrect (>= 400): %d", code)
 	}
 	return time.Since(start), nil
 }
 
-func CoreHTTPRequest(inst *core.Instance, timeout time.Duration, method, dest string) (int, []byte, error) {
+func CoreHTTPClient(inst *core.Instance, timeout time.Duration) (*http.Client, error) {
 
 	if inst == nil {
-		return -1, nil, errors.New("core instance nil")
+		return nil, errors.New("core instance nil")
 	}
 
 	tr := &http.Transport{
@@ -167,6 +169,16 @@ func CoreHTTPRequest(inst *core.Instance, timeout time.Duration, method, dest st
 	c := &http.Client{
 		Transport: tr,
 		Timeout:   timeout,
+	}
+
+	return c, nil
+}
+
+func CoreHTTPRequest(inst *core.Instance, timeout time.Duration, method, dest string) (int, []byte, error) {
+
+	c, err := CoreHTTPClient(inst, timeout)
+	if err != nil {
+		return 0, nil, err
 	}
 
 	req, _ := http.NewRequest(method, dest, nil)

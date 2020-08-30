@@ -1,25 +1,29 @@
-package v2gen
+package infra
 
 import (
-	"io/ioutil"
-	"iochen.com/v2gen/infra/vmess"
-	"log"
-	"os"
+	"bytes"
+	"encoding/json"
+	"errors"
 	"strings"
 )
 
-func GenSettings(node vmess.Link, userConfPath string) map[string]string {
-	Settings := node.Parse()
-
-	for k, v := range GetUserConf(userConfPath) {
-		Settings[k] = v
+func parseHost(s string) string {
+	parts := strings.Split(s, ",")
+	for i := range parts {
+		parts[i] = "\"" + parts[i] + "\""
 	}
-
-	return Settings
+	s = strings.Join(parts, ",")
+	return s
 }
 
-func GetUserConf(path string) map[string]string {
-	Settings := make(map[string]string)
+func prettyPrint(b []byte) ([]byte, error) {
+	var out bytes.Buffer
+	err := json.Indent(&out, b, "", "\t")
+	return out.Bytes(), err
+}
+
+func DefaultConf() V2genConfig {
+	Settings := make(V2genConfig)
 
 	//default settings
 	Settings["loglevel"] = "warning"
@@ -46,80 +50,51 @@ func GetUserConf(path string) map[string]string {
 	Settings["readBufferSize"] = "1"
 	Settings["writeBufferSize"] = "1"
 
-	// If user config not exist
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		return Settings
-	}
-
-	// read user config file
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		log.Println(err)
-		return Settings
-	}
-
-	for k, v := range ParseV2GenConf(b) {
-		Settings[k] = v
-	}
-
 	return Settings
 }
 
-func GenConf(Settings map[string]string) ([]byte, error) {
-	conf := ConfigTpl
-
-	if *FlagTPL != "" {
-		b, err := ioutil.ReadFile(*FlagTPL)
-		if err != nil {
-			return nil, err
+func GenV2RayConf(conf V2genConfig, template ...[]byte) ([]byte, error) {
+	v2rayConf := ConfigTpl
+	if len(template) > 0 {
+		if len(template) != 1 {
+			return nil, errors.New("too many templates")
 		}
-		conf = string(b)
+		v2rayConf = string(template[0])
 	}
 
-	// set china setting
-	if Settings["china"] == "true" {
-		conf = strings.ReplaceAll(conf, "{{china_ip}}", "\n"+`"geoip:cn",`)
-		conf = strings.ReplaceAll(conf, "{{china_sites}}", ChinaSites)
+	if conf["china"] == "true" {
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{china_ip}}", "\n"+`"geoip:cn",`)
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{china_sites}}", ChinaSites)
 	} else {
-		conf = strings.ReplaceAll(conf, "{{china_ip}}", "")
-		conf = strings.ReplaceAll(conf, "{{china_sites}}", "")
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{china_ip}}", "")
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{china_sites}}", "")
 	}
 
 	// set stream
-	if Settings["tls"] == "tls" {
-		conf = strings.ReplaceAll(conf, "{{tls}}", TLSObject)
+	if conf["tls"] == "tls" {
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{tls}}", TLSObject)
 	} else {
-		conf = strings.ReplaceAll(conf, "{{tls}}", "null")
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{tls}}", "null")
 	}
 
-	switch Settings["network"] {
+	switch conf["network"] {
 	case "kcp":
-		conf = strings.ReplaceAll(conf, "{{kcp}}", KcpObject)
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{kcp}}", KcpObject)
 	case "ws":
-		conf = strings.ReplaceAll(conf, "{{ws}}", WsObject)
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{ws}}", WsObject)
 	case "http":
-		conf = strings.ReplaceAll(conf, "{{http}}", HttpObject)
-		Settings["host"] = ParseHost(Settings["host"])
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{http}}", HttpObject)
+		conf["host"] = parseHost(conf["host"])
 	case "quic":
-		conf = strings.ReplaceAll(conf, "{{quic}}", QuicObject)
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{quic}}", QuicObject)
 	}
 
 	// set other settings
-	for k, v := range Settings {
-		conf = strings.ReplaceAll(conf, "{{"+k+"}}", v)
+	for k, v := range conf {
+		v2rayConf = strings.ReplaceAll(v2rayConf, "{{"+k+"}}", v)
 	}
 
-	return PrettyPrint([]byte(conf))
-}
-
-// from "aaa.ltd,bbb.ltd" to ""aaa.ltd","bbb.ltd""
-func ParseHost(s string) string {
-	arr := strings.Split(s, ",")
-	for i := range arr {
-		arr[i] = "\"" + arr[i] + "\""
-	}
-	s = strings.Join(arr, ",")
-	return s
+	return prettyPrint([]byte(v2rayConf))
 }
 
 const ConfigTpl = `{

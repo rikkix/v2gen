@@ -1,39 +1,28 @@
-package v2gen
+package infra
 
 import (
-	"errors"
-	"fmt"
-	"io/ioutil"
-	"os"
 	"strings"
 )
 
-func InitV2GenConf(p string) error {
-	// If user config  exist
-	if _, err := os.Stat(p); os.IsNotExist(err) {
-		return ioutil.WriteFile(p, []byte(DefaultV2GenConf), 0644)
-	}
-	fmt.Println("=====================")
-	fmt.Print("File already exists, if rewrite it?(y)es/(N)o: ")
+type V2genConfig map[string]string
 
-	var ifContinue string
-	_, err := fmt.Scanf("%s", &ifContinue)
-	if err != nil {
-		return err
-	}
-	fmt.Println("=====================")
-	if ifContinue == "y" || ifContinue == "Y" {
-		return ioutil.WriteFile(p, []byte(DefaultV2GenConf), 0644)
-	}
-	return errors.New("file already exists")
+func (config *V2genConfig) Config() map[string]string {
+	return map[string]string(*config)
 }
 
-func ParseV2GenConf(b []byte) map[string]string {
+func (config *V2genConfig) Append(conf map[string]string) *V2genConfig {
+	for k, v := range conf {
+		(*config)[k] = v
+	}
+	return config
+}
+
+// ParseV2genConf parses the file into a [string]string map
+func ParseV2genConf(b []byte) V2genConfig {
 	V2GenSettings := make(map[string]string)
 
 	// file to lines
 	lines := strings.Split(string(b), "\n")
-
 	for _, s := range lines {
 		s = strings.TrimLeft(s, " ")
 		s = strings.TrimLeft(s, "\t")
@@ -62,7 +51,7 @@ func ParseV2GenConf(b []byte) map[string]string {
 		V2GenSettings[line[0]] = line[1] // Set Settings[k]=v
 	}
 
-	return V2GenSettings
+	return V2genConfig(V2GenSettings)
 }
 
 const DefaultV2GenConf = `

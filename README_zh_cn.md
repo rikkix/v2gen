@@ -2,7 +2,6 @@
 
 V2Ray配置文件生成器
 
-*注：我们建议参阅英文资料*  
 [English](README.md)
 
 ## 预览
@@ -23,7 +22,7 @@ V2Ray配置文件生成器
 =====================
 Please Select:
 ```
-
+[*service provider aff*](https://duangcloud.org/aff.php?aff=502)
 
 ## 如何使用
 
@@ -155,17 +154,6 @@ readBufferSize: 1
 writeBufferSize: 1
 ```
 
-## 版本
-
-<!--version-->
-*V1.4.2*
-<!--version-end-->
-若此处版本号与tag所示版本号相冲突，请以tag为准
-
 ## 协议
 
 MIT LICENSE
-
-## 注意
-
-不支持第一版本格式

@@ -28,3 +28,7 @@ func Decode(str string) (string, error) {
 
 	return "", errors.New("no proper base64 decode method for: " + str)
 }
+
+func Encode(str string) string {
+	return base64.StdEncoding.EncodeToString([]byte(str))
+}

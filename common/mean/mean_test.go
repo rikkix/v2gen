@@ -1,8 +1,9 @@
 package mean_test
 
 import (
-	"iochen.com/v2gen/infra/mean"
 	"testing"
+
+	"iochen.com/v2gen/v2/common/mean"
 )
 
 type T int

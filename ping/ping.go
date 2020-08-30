@@ -1,8 +1,9 @@
 package ping
 
 import (
-	"iochen.com/v2gen/infra/mean"
 	"time"
+
+	"iochen.com/v2gen/v2/common/mean"
 )
 
 type Duration time.Duration
@@ -43,8 +44,8 @@ func (dList *DurationList) Swap(i, j int) {
 }
 
 type Status struct {
-	Durations  *DurationList
-	ErrCounter uint
+	Durations *DurationList
+	Errors    []*error
 }
 
 func (ps *Status) Value(index int) mean.Value {
