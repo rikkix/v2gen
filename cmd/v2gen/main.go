@@ -202,6 +202,7 @@ func main() {
 			logger.Fatal(err)
 		}
 		linkList = append(linkList, links...)
+
 	}
 
 	// if no Link, then exit
@@ -243,6 +244,9 @@ func main() {
 				}
 				if err != nil {
 					pingInfoList[i].Err = err
+					pingInfoList[i].Status = &ping.Status{
+						Durations: &ping.DurationList{},
+					}
 				} else {
 					pingInfoList[i].Status = &status
 				}
@@ -252,7 +256,11 @@ func main() {
 		fmt.Println()
 
 		for i := range pingInfoList {
-			pingInfoList[i].Duration = mean.ArithmeticMean(pingInfoList[i].Status.Durations).(ping.Duration)
+			var ok bool
+			pingInfoList[i].Duration, ok = mean.ArithmeticMean(pingInfoList[i].Status.Durations).(ping.Duration)
+			if !ok {
+				pingInfoList[i].Duration = 0
+			}
 		}
 		sort.Sort(&pingInfoList)
 		if *FlagBest { // if ping && best
