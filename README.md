@@ -14,21 +14,14 @@ You can use use vmess ping instead of ICMP ping
 
 ## Preview
 ```
-[ 0] 中继香港C5 Media (HK)(1)      [451ms  (0 errors)]
-[ 1] 中继香港C6 Media (HK)(1)      [452ms  (0 errors)]
-[ 2] BGP中继香港 2 Media (HK)(1)   [468ms  (0 errors)]
-[ 3] 中继香港C1 Media (HK)(1)      [518ms  (0 errors)]
-[ 4] 中继香港C3 Media (HK)(1)      [527ms  (0 errors)]
-[ 5] 中继香港C2 Media (HK)(1)      [536ms  (0 errors)]
-[ 6] BGP中继香港 3 Media (HK)(1)   [778ms  (0 errors)]
-[ 7] BGP中继香港 1 Media (HK)(1)   [881ms  (0 errors)]
-[ 8] 中继香港G2 Media (HK)(1)      [904ms  (0 errors)]
-[ 9] 中继香港G1 Media (HK)(1)      [1.35s  (1 errors)]
+[ 0] Server A      [451ms  (0 errors)]
+[ 1] Server B      [452ms  (0 errors)]
+[ 3] Server C      [251ms  (0 errors)]
 ...
+[25] Server Z      [652ms  (2 errors)]
 =====================
 Please Select:
 ```
-[*service provider aff*](https://duangcloud.org/aff.php?aff=502)
 
 ## Build or Download
 ```sh
