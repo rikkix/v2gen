@@ -6,7 +6,8 @@ You can use use vmess ping instead of ICMP ping
 
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?)](https://pkg.go.dev/iochen.com/v2gen)
 ![GitHub top language](https://img.shields.io/github/languages/top/iochen/v2gen)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) 
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/iochen/v2gen) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiochen%2Fv2gen.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiochen%2Fv2gen?ref=badge_shield)
+
 ![Go](https://github.com/iochen/v2gen/workflows/Test/badge.svg) 
 
 
@@ -145,3 +146,7 @@ writeBufferSize: 1
 ## LINCENSE
 
 MIT LICENSE
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fiochen%2Fv2gen.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fiochen%2Fv2gen?ref=badge_large)
