@@ -315,8 +315,13 @@ func main() {
 		}
 	}
 
+	v2genConf := infra.V2genConfig{}
+	confFile, err := ioutil.ReadFile(*FlagConf)
+	if err == nil {
+		v2genConf = infra.ParseV2genConf(confFile)
+	}
 	conf := infra.DefaultConf()
-	bytes, err := infra.GenV2RayConf(*conf.Append(chosenLink.Config()), template)
+	bytes, err := infra.GenV2RayConf(*conf.Append(v2genConf).Append(chosenLink.Config()), template)
 	if err != nil {
 		logrus.Fatal(err)
 	}
