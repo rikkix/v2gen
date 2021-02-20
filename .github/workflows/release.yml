@@ -21,8 +21,8 @@ jobs:
       - name: set variables
         run: |
           mkdir build
-          echo "::set-env name=VERSION::${GITHUB_REF##*/}"
-          echo "::set-env name=GOPRIVATE::github.com/v2ray/v2ray-core"
+          echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "GOPRIVATE=github.com/v2ray/v2ray-core" >> $GITHUB_ENV
         shell: bash
         env:
           GITHUB_REF: ${{ github.ref }}
