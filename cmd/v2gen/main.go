@@ -208,6 +208,7 @@ func main() {
 	// if no Link, then exit
 	if len(linkList) == 0 {
 		logger.Warn("no available links, nothing to do")
+		logger.Warn("no available links, nothing to do")
 		os.Exit(0)
 	}
 
