@@ -1,5 +1,10 @@
 # v2gen
-
+       
+```diff
+- The project will no longer be supported, please use other alternatives instead.
+- 该项目不再受支持，建议使用其它替代品
+```     
+   
 A powerful V2Ray config generator
 
 You can use use vmess ping instead of ICMP ping
